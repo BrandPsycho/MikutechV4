@@ -1,0 +1,156 @@
+﻿@font-face {
+    font-family: 'Spoof';
+    src: url('Recursos/SpoofTrial-Bold.otf') format('opentype');
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    /*me permite deslizar cuando hago clic en los links del menú*/
+    scroll-behavior: smooth;
+}
+
+/*ESTILOS DEL MENÚ*/
+.contenedor-header {
+    background-color: #161A33;
+    position: fixed;
+    /* Establece la posición del elemento contenedor como fija */
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+
+    .contenedor-header header {
+        width: 100%;
+        /* Establece el ancho máximo del elemento <header> a 1100px */
+        margin: auto;
+        /* Centra horizontalmente el elemento <header> dentro de su contenedor */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        /* Agrega un relleno interno al elemento <header> 
+                         de 15px (arriba y abajo) y 20px (izquierda y derecha) */
+    }
+
+        .contenedor-header header .logo {
+            display: flex;
+            align-items: center;
+            color: #fff;
+        }
+
+            .contenedor-header header .logo img {
+                height: 50px;
+                margin-left: 30px;
+                margin-right: 25px;
+            }
+
+            .contenedor-header header .logo h1 {
+                font-family: 'Spoof', sans-serif;
+                font-size: 36px;
+                margin: 0;
+            }
+
+        .contenedor-header header ul {
+            display: flex;
+            /* Elimina los estilos de viñetas (puntos o números) en la lista */
+            list-style: none;
+        }
+
+        .contenedor-header header nav ul li a {
+            font-family: 'Spoof', sans-serif;
+            color: #fff;
+            margin: 0 15px;
+            padding: 3px;
+            transition: .5s;
+            text-decoration: none;
+            font-size: 20px;
+            /*Elimina el subrayado*/
+        }
+
+            .contenedor-header header nav ul li a:hover {
+                color: #12CDD4;
+            }
+
+.btn-salir {
+    display: inline-block;
+    background-color: #161A33;
+    padding: 0 15px;
+    border: 1px solid #ff0000;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #fff;
+}
+
+    .btn-salir:hover {
+        background-color: rgba(71, 73, 114, 0.1);
+        border-color: #ff0000;
+        color: #ff0000;
+    }
+/*Productos*/
+.productos {
+    color: #fff;
+    background: linear-gradient(rgba(0, 1, 3, .5), rgba(0, 0, 0, .7));
+    padding: 100px 20px;
+}
+
+.productos .contenido-seccion {
+    justify-content: center;
+    align-items:center;
+    text-align:center;
+    margin: auto;
+}
+
+    .productos .contenedor-titulo {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+    }
+
+.productos .fila .columna {
+    margin-bottom:15px;
+}
+.productos .fila label {
+    display:flex;
+    padding:10px;
+    margin-left:425px;
+    font-size:20px;
+    font-weight:bold;
+}
+.productos .fila input {
+    width: 40%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    outline: none;
+    /*elimina contorno*/
+}
+
+.productos .btn-contenedor button{
+    margin-right:50px;
+    margin-left:50px;
+    margin-top:20px;
+    color:#fff;
+    font-size: 20px
+}
+
+.tabla {
+    color: #fff;
+    background: linear-gradient(rgba(0, 1, 3, .5), rgba(0, 0, 0, .7));
+    padding: 100px 20px;
+}
+.tabla .contenido-seccion {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+}
+

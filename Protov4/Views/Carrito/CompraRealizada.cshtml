@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Compra Exitosa";
+}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        Swal.fire({
+            icon: 'success',
+            title: 'Compra Exitosa',
+            showCancelButton: true,
+            confirmButtonText: 'Ir al Inicio',
+            cancelButtonText: 'Ver Mis Pedidos'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirigir al Index
+                window.location.href = '@Url.Action("Index", "Home")';
+            } else {
+                // Redirigir a la vista de Mis Pedidos
+                window.location.href = '@Url.Action("MiCuenta", "Home")';
+            }
+        });
+    });
+</script>

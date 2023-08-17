@@ -1,0 +1,66 @@
+﻿@using Protov4.DTO;
+@model List<PedidoDTO>
+@{
+    ViewData["Title"] = "Finalizar Compra";
+}
+<head>
+    <title>Formulario de Compra</title>
+</head>
+
+<body class="FinComprabody">
+    <div class="cuadrito">
+        <form method="post" id="formularioCompra" class="PagarFrom" action="@Url.Action("CompraRealizada", "Carrito")">
+            <div class="IzqForm">
+                <h2 class="TituloForm">Finalizar Compra</h2>
+                <label class="Texto1Form" for="ciudad">Ciudad</label><br>
+                <select class="ComboForm" id="ciudad" name="ciudad">
+                    <option value="Quito">Quito</option>
+                    <option value="Guayaquil">Guayaquil</option>
+                    <option value="Cuenca">Cuenca</option>
+                </select>
+                <br>
+                <label class="Texto1Form" for="Calleprin">Calle Principal</label><br>
+                <input class="Boton1Form" type="text" id="Calleprin" name="callePrincipal" required pattern="[A-Za-z0-9ñÑ\s]+"><br>
+                <label class="Texto1Form" for="callesec">Calle Secundaria:</label><br>
+                <input class="Boton1Form" type="text" id="callesec" name="calleSecundaria" required pattern="[A-Za-z0-9ñÑ\s]+"><br>
+            </div>
+            <div class="DerForm">
+                
+                    <h1 class=" Texto2Form">
+                        Seleccione un método de pago
+                    </h1>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="id_metodo_pago1" name="pagoMetodo" value=1 checked>
+                    <label class="Texto3Form" for="pagoMetodo">Tarjeta de Crédito</label><img class="Img1Form" src="~/Recursos/Tarjetas.png" alt="Tarjetas" width="150" height="60px" /><br>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="id_metodo_pago2" name="pagoMetodo" value=2>
+                    <label class="Texto3Form" for="pagoMetodo">PayPal</label><img src="~/Recursos/PayPal.png" alt="PayPal" width="35px" height="35px" /><br>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="id_metodo_pago3" name="pagoMetodo" value=3>
+                    <label class="Texto3Form" for="pagoMetodo">Transferencia</label><img src="~/Recursos/BancoPichincha.png" alt="Transferencia" width="35px" height="35px" /><br>
+                </div>
+
+
+                <div id="TextoPagar">
+                    <h1 id="TotalPagar">Total:</h1>
+                    @{
+                        decimal total = 0;
+                        @foreach (var item in Model)
+                        {
+                            total = item.pago_total;
+                        }
+                    }
+                    <h1 id="TotalNumPagar"> $ @total</h1>
+                   
+                
+
+                <input type="hidden" name="pagototal" value="@total" />
+                </div>
+                <button type="submit" class="btnPagar btn btn-outline-info">Pagar</button>
+               
+            </div>
+        </form>
+    </div>
+</body>

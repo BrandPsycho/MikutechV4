@@ -1,0 +1,208 @@
+﻿@using Protov4.DTO;
+@model List<CarritoFullDTO>
+
+@{
+    ViewData["Title"] = "Carrito";
+}
+<div class="carr">
+    <p class="Titulo1"> Tienes @Model.Count articulos en tu carrito</p>
+    @{
+
+        <table class="TabCarrito">
+            <tr>
+                <th>Producto</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var carr = Model[i];
+                int cantidad = 1;
+                int existencias = carr.existencias;
+                byte[] imagenBytes = carr.Imagen;
+                string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
+                <tr>
+                    <td class="ColImag"><img src="@base64" width="200" height="200"></td>
+                    <td class="ColImag"> @carr.Nombre_Producto </td>
+                    <td class="ColPrec">$ @carr.Precio </td>
+                    <td class="ColCant">
+                        <input type="hidden" name="cantidad[@i]" value="@cantidad" />
+                        <div class="contador-container">
+                            <div class="contador-content">
+                                <button class="btn bi bi-dash-lg btnmenoscarrito"></button>
+                                <h4 class="contadorcarrito">@cantidad</h4>
+                                <button class="btn bi bi-plus-lg btnmascarrito" data-index=@carr.existencias></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="ColSubT">$ @carr.subtotal_producto </td>
+
+                    <td class="ColElim">
+                        <form class="deleteForm" id="deleteForm-@carr.id_producto" action="@Url.Action("DeletePedido", "Carrito")" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id_producto" value="@carr.id_producto" />
+                            <button class="btn btn-danger shadow-sm deleteButton" type="button">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    <div>
+        @{
+            decimal total = 0;
+            <div class="total">
+                <h1 id="TotalCarrito">Total del Carrito</h1>
+
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    total = total + Model[i].subtotal_producto;
+                }
+
+                <h1 id="totalCompra">
+                    $ @total
+                </h1>
+
+            </div> <br />
+            <div id="BotonesFinCompra">
+                <button class="BtnFinCompra btn btn-outline-light" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "" })'">Añadir Producto</button>
+                <form class="FinalizarCompra" action="@Url.Action("FinalizarCompra", "Carrito")" method="post">
+                    <input type="hidden" name="pagototal" id="pagototal" value="@total" />
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <input type="hidden" name="id_producto[@i]" value="@Model[i].id_producto" />
+
+                        <input type="hidden" name="cantidad[@i]" value="@Model[i].cantidad" />
+                        <input type="hidden" name="precio[@i]" value="@Model[i].Precio" />
+                    }
+                    @if(total>0){
+                        <button class="BtnFinCompra btn btn-outline-light">Finalizar compra</button>
+                    }
+                </form>
+            </div>
+        }
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var deleteForms = document.querySelectorAll(".deleteForm");
+        deleteForms.forEach(function (form) {
+            form.addEventListener("click", function (e) {
+                e.preventDefault(); // Evita el envío automático del formulario
+
+                var formData = new FormData(form);
+
+                Swal.fire({
+                    title: 'Quitar del Carrito',
+                    text: "Estas seguro de eliminar el producto de tu carrito?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, quiero eliminarlo',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var id_producto = formData.get("id_producto");
+                        removeProductFromCookie(id_producto);
+
+                        form.submit();
+
+
+                        
+                    }
+                });
+            });
+        });
+
+        var btnMenosCarrito = document.querySelectorAll(".btnmenoscarrito");
+        btnMenosCarrito.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var divProducto = btn.closest(".ColCant");
+                var index = btn.closest("tr").rowIndex - 1; // Obtener el índice de la fila
+                var cantidadElement = divProducto.querySelector(".contadorcarrito");
+                var cantidad = parseInt(cantidadElement.textContent);
+                if (cantidad > 1) {
+                    cantidad--;
+                    cantidadElement.textContent = cantidad;
+                    actualizarSubtotalYTotal(divProducto, cantidad, index);
+
+                    // Actualizar el campo oculto directamente
+                    $("input[name='cantidad[" + index + "]']").val(cantidad);
+                }
+            });
+        });
+
+        var btnMasCarrito = document.querySelectorAll(".btnmascarrito");
+        btnMasCarrito.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var divProducto = btn.closest(".ColCant");
+                var index = btn.closest("tr").rowIndex - 1; // Obtener el índice de la fila
+                var existencias = parseInt(btn.getAttribute("data-index"));
+                var cantidadElement = divProducto.querySelector(".contadorcarrito");
+                var cantidad = parseInt(cantidadElement.textContent);
+
+                if (cantidad < existencias) {
+                    cantidad++;
+                    cantidadElement.textContent = cantidad;
+                    actualizarSubtotalYTotal(divProducto, cantidad, index);
+
+                    // Actualizar el campo oculto directamente
+                    $("input[name='cantidad[" + index + "]']").val(cantidad);
+                }
+            });
+        });
+
+        // Función para eliminar un producto de la cookie
+        function removeProductFromCookie(id_producto) {
+            var carritoCookie = getCookie("carrito");
+            if (carritoCookie) {
+                var productIds = carritoCookie.split(",");
+                var updatedProductIds = productIds.filter(function (productId) {
+                    return productId !== id_producto;
+                });
+                var updatedCarritoCookie = updatedProductIds.join(",");
+                setCookie("carrito", updatedCarritoCookie);
+            }
+        }
+
+        // Funciones para trabajar con cookies
+        function setCookie(name, value) {
+            document.cookie = name + "=" + value + "; path=/";
+        }
+
+        function getCookie(name) {
+            var cookieName = name + "=";
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.indexOf(cookieName) === 0) {
+                    return cookie.substring(cookieName.length, cookie.length);
+                }
+            }
+            return null;
+        }
+
+        function actualizarSubtotalYTotal(divProducto, cantidad, index) {
+            var precio = parseFloat(divProducto.closest("tr").querySelector(".ColPrec").textContent.replace("$", ""));
+            var subtotal = cantidad * precio;
+            divProducto.closest("tr").querySelector(".ColSubT").textContent = "$ " + subtotal.toFixed(2);
+
+            var total = 0;
+            document.querySelectorAll(".ColSubT").forEach(function (subTotalElement) {
+                var subtotalValue = parseFloat(subTotalElement.textContent.replace("$", ""));
+                total += subtotalValue;
+            });
+            document.querySelector("#totalCompra").textContent = "$ " + total.toFixed(2);
+            document.getElementById("pagototal").value = total;
+        }
+    });
+</script>

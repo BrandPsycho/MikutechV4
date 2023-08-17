@@ -1,0 +1,147 @@
+﻿@using Protov4.DTO
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<div class="container">
+    <main role="main" class="pb-3">
+        <section class="row" aria-labelledby="aspnetTitle">
+            <h1 id="title" style="font:bold 36px arial;">Productos</h1>
+        </section>
+
+        <div id="contenedor_Productos" class="row">
+            @{
+                foreach (var prod in Model)
+                {
+                    int existencias = prod.Existencia;
+                    if(existencias>0){
+                    byte[] imagenBytes = prod.Imagen;
+                    string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
+                    
+                    <section id="seccard" class="col col-md-auto">
+                        <div id="cardform" class="card text-white rounded-3">
+                            <div class="card-body">
+                                <div class="card-title" onclick="window.location.href='@Url.Action("ProductoSeleccion","Producto",new{_id=prod.Id})'">
+
+                                    <h5>
+                                        <img src="@base64" width="267" height="252">
+                                    </h5>
+
+                                    <p id="nombreProducto" class="card-text text-uppercase">@prod.Nombre_Producto</p>
+                                    <p id="Precio" class="card-text ms-3">$@prod.Precio</p>
+                                    <p id="IVA" class="card-text ml-3">Precios incluyen IVA</p>
+
+                                </div>
+                                <div id="botoncompra">
+
+                                    <form class="carritoForm" action="@Url.Action("CrearCarrito", "Producto")" method="post">
+                                        <input type="hidden" name="id_cliente" value="1" />
+                                        <input type="hidden" name="id_producto" value="@prod.Id" />
+                                        <input type="hidden" name="precio" value="@prod.Precio" />
+                                        <input type="hidden" name="cantidad" value="1" />
+                                        <input type="hidden" name="subtotal" value="@prod.Precio" />
+                                        <button id="botoncarrito" type="submit" class="btn btn-large shadow-sm">
+                                            <i id="carrito" class="bi bi-cart-fill">AÑADIR AL CARRITO</i>
+                                        </button>
+                                    </form>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                    }
+                }
+            }
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var carritoForm = document.querySelectorAll(".carritoForm");
+        carritoForm.forEach(function (form) {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                var formData = new FormData(form);
+
+                var id_producto = formData.get("id_producto");
+                var cantidad = parseInt(formData.get("cantidad"));
+
+                if (isNaN(cantidad) || cantidad <= 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'La cantidad debe ser un número válido y mayor que cero.'
+                    });
+                    return;
+                }
+
+                // Verificar si el producto ya está en el carrito (usando una cookie)
+                var carritoCookie = getCookie("carrito");
+                if (carritoCookie && carritoCookie.includes(id_producto)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'oopss...',
+                        text: 'Este producto ya está en el carrito. Puedes actualizar la cantidad en el carrito.'
+                    });
+                    return;
+                }
+
+                // Agregar el ID del producto a la cookie
+                var updatedCarritoCookie = carritoCookie ? carritoCookie + "," + id_producto : id_producto;
+                setCookie("carrito", updatedCarritoCookie);
+
+                fetch(form.action, {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(function (response) {
+                        if (response.ok) {
+                            // Show success SweetAlert
+                            Swal.fire({
+                              
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: 'Producto añadido al carrito',
+                                showConfirmButton: false,
+                                timer: 1000 
+                                
+                            });
+
+                           
+                        } else {
+                            
+                        }
+                    })
+                    .catch(function (error) {
+                        // Handle network errors or other issues
+                    });
+            });
+        });
+
+        // Resto del código aquí...
+
+        // Funciones para trabajar con cookies
+        function setCookie(name, value) {
+            document.cookie = name + "=" + value + "; path=/";
+        }
+
+        function getCookie(name) {
+            var cookieName = name + "=";
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.indexOf(cookieName) === 0) {
+                    return cookie.substring(cookieName.length, cookie.length);
+                }
+            }
+            return null;
+        }
+    });
+
+</script>

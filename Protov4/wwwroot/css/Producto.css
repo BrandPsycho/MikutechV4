@@ -1,0 +1,229 @@
+﻿#title {
+    font: bold 36px arial;
+}
+.alerta-custom{
+    width:10px;
+}
+#seccard {
+    margin-bottom: 2%;
+}
+.product-added {
+    display: none;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product {
+    flex: 30px;
+    padding: 80px;
+    margin-top: 42px;
+    background: rgb(41,30,63);
+    background-image: radial-gradient( circle at left top, rgba(41,30,63,1) 6%, rgba(13,12,28,1) 45%, rgba(13,12,28,1) 80%);
+}
+.columnas-descripcion {
+    display: flex;
+    justify-content: space-between;
+}
+
+.etiquetas {
+    font-weight:bold;
+    color:white;
+    flex: 0.3; /* La columna de etiquetas ocupará el doble de ancho */
+}
+
+.valores {
+    color: white;
+    flex: 1%; /* La columna de valores ocupará la mitad de ancho en comparación con las etiquetas */
+}
+    .etiquetas p, .valores p {
+        margin: 5px 0;
+    }
+.distancia {
+    margin-left: 40px;
+}
+.product-info {
+    flex: 60%;
+    padding: 110px;
+}
+
+.imagenProd {
+    width: 145%;
+    height: 65%;
+   
+}
+
+#cardform {
+    width: 400px;
+    height: 411px;
+    background:  rgba(255,255,255,0.05);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+    border: 1px solig rgba(255,255,255,0.18);
+    border-radius: 32 px;
+    text-align: center;
+    /*    background-color: #444774;
+*/ transition: transform 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
+}
+#cardform:hover {
+        border-color: aqua;
+        cursor: pointer;
+        transform: scale(1.05);
+}
+
+#nombreProducto {
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+}
+
+.nombreProductoSeleccion {
+    font-weight: bold;
+    font-size: 36px;
+    color: white;
+    margin-bottom: 30px;
+}
+
+#Precio {
+    font-weight: bold;
+    font-size: 14px;
+    color: aqua;
+    transform: translateX(-30%); /* Ajusta la posición vertical */
+}
+
+#contenedor_Productos {
+    margin-top: 5%;
+}
+
+.PrecioSeleccion {
+    font-weight: bold;
+    font-size: 24px;
+    color: aqua;
+}
+.lblIVA {
+    position: absolute;
+    font-weight: bold;
+    font-size: 18px;
+    color: grey;
+    transform: translateX(55%) translateY(-150%); /* Ajusta la posición vertical */
+}
+.contador {
+    position:absolute;
+    background-color: #505374;
+    text-align:center;
+    width:35px;
+    height:37px;
+    font-weight:bold;
+    color:white;
+    transform: translateX(1791%) translateY(-215%);
+}
+.btnmenos {
+    border-bottom-left-radius: 15px;
+    font-size: 16px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #2a2b4d;
+    color: azure;
+    transform: translateX(1400%) translateY(-110%); /* Ajusta la posición vertical */
+}
+.descripcion {
+    padding-top:10px;
+    border-top: dotted;
+    font-size: 22px;
+    font-family: 'PT Sans';
+}
+.tituloarticulo {
+   padding-top:10px;
+    font-size: 22px;
+    font-family: 'Spoof Trial';
+   color:white
+}
+.adicional {
+
+    border-top: dotted;
+    
+}
+.btnmas {
+    border-bottom-right-radius: 15px;
+    font-size: 16px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-color: #2a2b4d;
+    color: azure;
+    transform: translateX(1474%) translateY(-110%); /* Ajusta la posición vertical */
+}
+.btnmenos:hover, .btnmas:hover {
+    color: aqua;
+}
+
+#IVA {
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    color: #6e6f7c;
+    margin-top: -36px;
+}
+
+#botoncompra {
+ 
+    text-align: center;
+
+}
+
+#botoncarrito {
+    background-color: #643ada;
+    font: bold 14px arial;
+    color: white;
+    padding: 8px 16px; /* Ajusta el espaciado interno del botón */
+    border: none; /* Sin bordes */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
+}
+.alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.product-alert {
+    animation: fadeInUp 0.5s ease-in-out;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+    /* Efecto de sombra cuando el cursor pasa sobre el botón */
+    #botoncarrito:hover {
+        background-color: #5127a4; /* Nuevo color de fondo del botón al hacer hover */
+        transform: scale(1.05);
+    }
+#botoncarritoseleccion {
+    background-color: #643ada;
+    font: bold 22px arial;
+    color: white;
+   position:absolute;
+    transform:translateY(-125%);
+}
+    #botoncarritoseleccion:hover {
+        background-color: #5127a4; /* Nuevo color de fondo del botón al hacer hover */
+        transform: translateY(-125%)
+        scale(1.05);
+    }
+#carrito {
+    font: bold 14px arial;
+}

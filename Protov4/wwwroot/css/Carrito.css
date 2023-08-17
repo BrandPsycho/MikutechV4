@@ -1,0 +1,336 @@
+﻿.Titulo1 {
+    color: white;
+    font-size: 30px;
+    font-family: 'Spoof Trial';
+    font-weight: bold;
+    margin-top: 100px;
+    margin-left: 150px
+}
+
+.TabCarrito {
+    border-collapse: collapse;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    margin-left: 150px;
+    text-align: center;
+    align-content: center;
+}
+
+.carr {
+    padding-left: 50px;
+}
+
+.TabCarrito th {
+    color: white;
+    font-family: Arial;
+    font-weight: bold;
+    height: 30px;
+}
+
+.TabCarrito tr {
+    border-bottom: 1px solid transparent;
+    height: 30px;
+}
+
+.TabCarrito th {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+}
+
+.Titulo1 {
+    color: white;
+    font-size: 30px;
+    font-family: 'Spoof Trial';
+    font-weight: bold;
+    margin-top: 100px;
+    margin-left: 150px
+}
+
+.TabCarrito {
+    border-collapse: collapse;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    margin-left: 150px;
+    text-align: center;
+    align-content: center;
+}
+
+.carr {
+    padding-left: 50px;
+}
+
+.TabCarrito th {
+    color: white;
+    font-family: Arial;
+    font-weight: bold;
+    height: 30px;
+}
+
+.TabCarrito tr {
+    border-bottom: 1px solid transparent;
+    height: 30px;
+}
+
+.TabCarrito th {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    border-bottom: 2.5px solid white;
+    height: 35px;
+    padding: 20px;
+}
+
+.ColPrec {
+    padding: 20px;
+    font-family: Arial;
+    font-size: 20px;
+    color: white;
+    width: 150px;
+    border-bottom: 2.5px solid white;
+}
+
+.ColSubT {
+    padding: 20px;
+    font-family: Arial;
+    font-size: 20px;
+    color: #04D9C4;
+    width: 150px;
+    border-bottom: 2.5px solid white;
+}
+
+.ColImag {
+    padding: 20px;
+    color: white;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 20px;
+    width: 300px;
+    border-bottom: 2.5px solid white;
+}
+
+.ColCant {
+    padding: 20px;
+    color: white;
+    width: 200px;
+    border-bottom: 2.5px solid white;
+}
+
+.ColElim {
+    padding: 20px;
+    color: white;
+    width: 100px;
+    border-bottom: 2.5px solid white;
+}
+
+.btnmenoscarrito {
+    border-bottom-left-radius: 15px;
+    font-size: 16px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #2a2b4d;
+    color: azure;
+}
+
+.btnmascarrito {
+    border-bottom-right-radius: 15px;
+    font-size: 16px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-color: #2a2b4d;
+    color: azure;
+}
+
+.contador-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 38px; /* Ajusta la altura según sea necesario */
+}
+
+.contador-content {
+    display: flex;
+    align-items: center;
+    max-width: 100%; /* Ajusta el ancho máximo según sea necesario */
+}
+
+.contadorcarrito {
+    background-color: #505374;
+    text-align: center;
+    width: 35px;
+    height: 38px;
+    font-weight: bold;
+    color: white;
+    margin-left: auto;
+    margin-top: 8px; /* Alinea el contador a la derecha */
+}
+
+.total {
+    padding-top: 10px;
+    display: flex;
+    margin-top: 75px;
+    margin-left: 140px;
+    flex-wrap: wrap;
+    width: 80%;
+    border: solid white;
+}
+
+.divcenter {
+    display: flex;
+    justify-content: center;
+    transform: translateX(-82px) translateY(20px);
+}
+
+.BtnFinCompra {
+    margin-right: 100px;
+    background-color: #643ada;
+    width: 170px;
+    height: 40px;
+    font: bold 14px arial;
+    color: white;
+    padding: 8px 16px; /* Ajusta el espaciado interno del botón */
+    border: none; /* Sin bordes */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
+}
+
+#BotonesFinCompra {
+    display: flex;
+    justify-content:right;
+}
+
+
+#totalCompra {
+    text-align: right;
+    margin-right: 15px;
+    font-size: 40px;
+    font-family: Arial;
+    font-weight: bold;
+    flex: 0.17;
+    color: #12CDD4;
+}
+
+#TotalCarrito {
+    flex: 1;
+    color: #12CDD4;
+    font-size: 40px;
+    font-family: Arial;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+
+
+.ColPrec {
+    font-family: Arial;
+    font-size: 20px;
+    color: white;
+    width: 150px;
+    border-bottom: 2.5px solid white;
+}
+
+.ColSubT {
+    font-family: Arial;
+    font-size: 20px;
+    color: #04D9C4;
+    width: 150px;
+    border-bottom: 2.5px solid white;
+}
+
+.ColImag {
+    color: white;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 20px;
+    width: 300px;
+    border-bottom: 2.5px solid white;
+}
+
+.ColCant {
+    color: white;
+    width: 200px;
+    border-bottom: 2.5px solid white;
+}
+
+.ColElim {
+    color: white;
+    width: 100px;
+    border-bottom: 2.5px solid white;
+}
+
+.btnmenoscarrito {
+    border-bottom-left-radius: 15px;
+    font-size: 16px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #2a2b4d;
+    color: azure;
+}
+
+.btnmascarrito {
+    border-bottom-right-radius: 15px;
+    font-size: 16px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-color: #2a2b4d;
+    color: azure;
+}
+
+.contador-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 38px; /* Ajusta la altura según sea necesario */
+}
+
+.contador-content {
+    display: flex;
+    align-items: center;
+    max-width: 100%; /* Ajusta el ancho máximo según sea necesario */
+}
+
+.contadorcarrito {
+    background-color: #505374;
+    text-align: center;
+    width: 35px;
+    height: 38px;
+    font-weight: bold;
+    color: white;
+    margin-left: auto;
+    margin-top: 8px; /* Alinea el contador a la derecha */
+}
+
+.total {
+    display: flex;
+    flex-wrap: wrap;
+    width: 82%;
+    border: solid white;
+}
+
+.divcenter {
+    display: flex;
+    justify-content: center;
+    transform: translateX(-82px) translateY(20px);
+}
+
+.BtnFinCompra {
+    background-color: #643ada;
+    width: 150px;
+    height: 30px;
+    font: bold 14px arial;
+    color: white;
+    padding: 8px 16px; /* Ajusta el espaciado interno del botón */
+    border: none; /* Sin bordes */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
+}
