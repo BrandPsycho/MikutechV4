@@ -227,3 +227,8 @@
 #carrito {
     font: bold 14px arial;
 }
+.titulo {
+    margin-top: 10px;
+    color: white;
+    font:bold 36px arial;
+}

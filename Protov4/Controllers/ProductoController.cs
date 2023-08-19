@@ -26,6 +26,7 @@ namespace Protov4.Controllers
         public ActionResult Producto(string tipo)
         {
             var productos = ListarProductos(tipo);
+            ViewData["tipo"] = tipo;
             return View(productos);
         }
         // GET: ProductoController/ProductoSeleccion

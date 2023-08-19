@@ -1,18 +1,26 @@
 ﻿@using Protov4.DTO
 @{
     ViewData["Title"] = "Productos";
+    string tipo = ViewData["tipo"] as string;
 }
-
+@model List<ProductoDTO>
 <div class="container">
     <main role="main" class="pb-3">
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="title" style="font:bold 36px arial;">Productos</h1>
-        </section>
 
         <div id="contenedor_Productos" class="row">
             @{
-                foreach (var prod in Model)
+                @if (tipo!=null)
                 {
+                    <h1 class="titulo" id="title">Productos - @tipo</h1>
+                }
+                else
+                {
+                    <h1 class="titulo" id="title">Productos</h1>
+                }
+
+
+                foreach (var prod in Model)
+                {   
                     int existencias = prod.Existencia;
                     if(existencias>0){
                     byte[] imagenBytes = prod.Imagen;
