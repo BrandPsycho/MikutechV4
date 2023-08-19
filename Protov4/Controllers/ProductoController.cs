@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Protov4.DAO;
 using Protov4.DTO;
 using Protov4.Models;
+using System.Security.Claims;
 
 namespace Protov4.Controllers
 {
@@ -119,13 +120,17 @@ namespace Protov4.Controllers
                 }
                 else
                 {
-                     db.RegistrarPedido(id_cliente);
+                  
                     id_pedido = db.ObtenerIdPedido();
                     TempData["PedidoRegistrado"] = true;
                     HttpContext.Session.SetInt32("IdPedidoActual", id_pedido);
                    
                 }
+                ClaimsPrincipal c = HttpContext.User;
 
+                var idUsuarioClaim = c.FindFirstValue("id_usuario");
+
+                db.RegistrarPedido(int.Parse(idUsuarioClaim));
                 db.insertarCarrito(id_pedido, id_producto, precio, cantidad, subtotal);
 
                 return Json(new { success = true });
