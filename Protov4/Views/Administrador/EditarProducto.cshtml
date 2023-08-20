@@ -1,0 +1,247 @@
+﻿@using Protov4.DTO;
+@{
+    Layout = "~/Views/Administrador/_LayoutAdmin.cshtml";
+}
+@model List<ProductoDTO>
+
+<div>
+    @foreach (var prod in Model)
+    {
+
+        var imagenBytes = prod.Imagen;
+        var base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
+        <h1>Nuevo Producto</h1>
+        <form id="crearProductoForm" method="post" enctype="multipart/form-data" action="@Url.Action("EditarProductoDAO", "Administrador")">
+            <input hidden value="@prod.Id" id="_id" name="_id">
+            <label class="Texto1Form" for="nombre">Nombre Producto</label><br>
+            <input class="Boton1Form" type="text" id="nombre" name="nombre" value="@prod.Nombre_Producto" required><br />
+            <label class="Texto1Form" for="imagen">Imagen</label><br>
+            <input class="Boton1Form" type="file" id="imagen" name="imagen" accept="image/*"><br>
+            <img id="imagen-preview" src=@base64 alt="Vista Previa de la Imagen" style="max-width: 200px;"><br>
+            <input hidden id="imagenBase64" name="imagenBase64" value="@base64">
+
+
+            <label class="Texto1Form" for="precio">Precio</label><br>
+            <div class="input-container">
+                <input class="Boton1Form" type="number" id="precio" name="precio" required value="@prod.Precio" min="0" step="1" inputmode="numeric">
+                <span class="error-message" id="precio-error">Ingrese un valor válido</span>
+            </div><br>
+
+            <label class="Texto1Form" for="existencia">Existencias</label><br>
+            <div class="input-container">
+                <input class="Boton1Form" type="number" id="existencia" value="@prod.Existencia" name="existencia" required min="0" step="1" inputmode="numeric">
+                <span class="error-message" id="existencia-error">Ingrese un valor válido</span>
+            </div><br>
+
+
+
+            <label class="Texto1Form" for="marca">Marca</label><br>
+            <input class="Boton1Form" type="text" id="marca" value="@prod.Marca" name="marca" required><br>
+
+
+            <label class="Texto1Form" for="Tipo">Tipo</label><br>
+            <select class="ComboForm" id="Tipo" name="Tipo">
+                <option value="Procesador">Procesador</option>
+                <option value="Gráfica">Gráfica</option>
+                <option value="Almacenamiento">Almacenamiento</option>
+                <option value="Ram">Ram</option>
+                <option value="Fuente">Fuente</option>
+                <option value="Placa">Placa</option>
+            </select><br />
+            <h4 class="espe">Especificaciones</h4>
+            <!-- Campos específicos para cada tipo -->
+            <div id="tipo-specific">
+
+                <!-- Campos para Procesador -->
+                <div id="Procesador">
+                    <label class="Texto1Form " for="velocidad">Velocidad</label><br>
+                    <input class="Boton1Form" name="Velocidad" type="text" id="velocidad" value="@prod.Especificaciones.Velocidad" name="velocidad"><br>
+
+                    <label class="Texto1Form" for="fabricante">Fabricante</label><br>
+                    <input class="Boton1Form" name="Fabricante" type="text" id="fabricante" name="fabricante" value="@prod.Especificaciones.Fabricante"><br>
+
+                    <label class="Texto1Form" for="modelo">Modelo</label><br>
+                    <input class="Boton1Form" name="Modelo" type="text" id="modelo" name="modelo" value="@prod.Especificaciones.Modelo"><br>
+
+                    <label class="Texto1Form" for="Zócalo">Zócalo</label><br>
+                    <input class="Boton1Form" name="Zocalo" type="text" id="Zócalo" name="Zócalo" value="@prod.Especificaciones.Zócalo"><br>
+
+                    <label class="Texto1Form" for="descripcion">Descripción</label><br>
+                    @for (int i = 0; i < prod.Especificaciones.Descripción.Count; i++)
+                    {
+                        <input class="Boton1Form descripcion" type="text" id="Descripcion_@i" name="Descripcion[@i]" value="@prod.Especificaciones.Descripción[i]">
+                        <br>
+                    }
+                </div>
+
+                <!-- Campos para Gráfica -->
+                <div id="Gráfica">
+                    <label class="Texto1Form" for="fabricante">Fabricante</label><br>
+                    <input class="Boton1Form" name="Fabricante" type="text" id="fabricante" name="fabricante" value="@prod.Especificaciones.Fabricante"><br>
+
+                    <label class="Texto1Form" for="modelo">Modelo</label><br>
+                    <input class="Boton1Form" name="Modelo" type="text" id="modelo" name="modelo" value="@prod.Especificaciones.Modelo"><br>
+
+
+                    <label class="Texto1Form" for="TamañoVRAM">Tamaño VRAM</label><br>
+                    <input class="Boton1Form" name="TamañoVram" type="text" id="TamañoVRAM" name="TamañoVRAM" value="@prod.Especificaciones.TamañoVRAM"><br>
+
+                    <label class="Texto1Form" for="Interfaz">Interfaz</label><br>
+                    <input class="Boton1Form" name="Interfaz" type="text" id="Interfaz" name="Interfaz" value="@prod.Especificaciones.Interfaz"><br>
+
+                    <label class="Texto1Form" for="descripcion">Descripción</label><br>
+                    @for (int i = 0; i < prod.Especificaciones.Descripción.Count; i++)
+                    {
+                        <input class="Boton1Form descripcion" type="text" id="Descripcion" name="Descripcion" value="@prod.Especificaciones.Descripción[i]">
+
+                        <br>
+
+                    }
+                </div>
+
+                <!-- Campos para Almacenamiento -->
+                <div id="Almacenamiento">
+                    <label class="Texto1Form fabricante" for="fabricante">Fabricante</label><br>
+                    <input class="Boton1Form fabricante" name="Fabricante" type="text" id="fabricante" value="@prod.Especificaciones.Fabricante" name="fabricante"><br>
+                    <label class="Texto1Form Interfaz" for="Interfaz">Interfaz</label><br>
+                    <input class="Boton1Form Interfaz" name="Interfaz" type="text" id="Interfaz" name="Interfaz" value="@prod.Especificaciones.Interfaz"><br>
+
+                    <label class="Texto1Form Almacenamiento" for="Almacenamiento">Almacenamiento</label><br>
+                    <input class="Boton1Form Almacenamiento" name="Almacenamiento" type="text" id="Almacenamiento" name="Almacenamiento" value="@prod.Especificaciones.Almacenamiento"><br>
+                    <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
+                    @for (int i = 0; i < prod.Especificaciones.Descripción.Count; i++)
+                    {
+                        <input class="Boton1Form descripcion" type="text" id="Descripcion" name="Descripcion" value="@prod.Especificaciones.Descripción[i]">
+
+                        <br>
+
+                    }
+                </div>
+                <div id="Ram">
+                    <label class="Texto1Form fabricante" for="fabricante">Fabricante</label><br>
+                    <input class="Boton1Form fabricante" name="Fabricante" type="text" id="fabricante" name="fabricante" value="@prod.Especificaciones.Fabricante"><br>
+
+                    <label class="Texto1Form modelo" for="modelo">Modelo</label><br>
+                    <input class="Boton1Form modelo" type="text" id="modelo" name="Modelo" value="@prod.Especificaciones.Modelo"><br>
+
+                    <label class="Texto1Form velocidad" for="velocidad">Velocidad</label><br>
+                    <input class="Boton1Form velocidad" type="text" id="velocidad" name="Velocidad" value="@prod.Especificaciones.Velocidad"><br>
+
+                    <label class="Texto1Form TecnologiaRAM" for="TecnologiaRAM">Tecnologia RAM</label><br>
+                    <input class="Boton1Form TecnologiaRAM" type="text" id="TecnologiaRAM" name="TecnologiaRam" value="@prod.Especificaciones.TecnologíaRAM"><br>
+
+                    <label class="Texto1Form tamañomemoria" for="tamañomemoria">Tamaño Memoria</label><br>
+                    <input class="Boton1Form tamañomemoria" type="text" id="tamañomemoria" name="Tamañomemoria" value="@prod.Especificaciones.Tamañomemoria"><br>
+
+                    <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
+                    @for (int i = 0; i < prod.Especificaciones.Descripción.Count; i++)
+                    {
+                        <input class="Boton1Form descripcion" type="text" id="Descripcion" name="Descripcion" value="@prod.Especificaciones.Descripción[i]">
+
+                        <br>
+
+                    }
+                </div>
+                <div id="Fuente">
+                    <label class="Texto1Form fabricante" for="fabricante">Fabricante</label><br>
+                    <input class="Boton1Form fabricante" type="text" id="fabricante" name="Fabricante" value="@prod.Especificaciones.Fabricante"><br>
+
+                    <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
+                    @for (int i = 0; i < prod.Especificaciones.Descripción.Count; i++)
+                    {
+                        <input class="Boton1Form descripcion" type="text" id="Descripcion" name="Descripcion" value="@prod.Especificaciones.Descripción[i]">
+
+                        <br>
+
+                    }
+                </div>
+                <div id="Placa">
+                    <label class="Texto1Form fabricante" for="fabricante">Fabricante</label><br>
+                    <input class="Boton1Form fabricante" type="text" id="fabricante" name="Fabricante" value="@prod.Especificaciones.Fabricante"><br>
+
+                    <label class="Texto1Form modelo" for="modelo">Modelo</label><br>
+                    <input class="Boton1Form modelo" type="text" id="modelo" name="Modelo" value="@prod.Especificaciones.Modelo"><br>
+
+                    <label class="Texto1Form Zócalo" for="Zócalo">Zócalo</label><br>
+                    <input class="Boton1Form Zócalo" type="text" id="Zócalo" name="Zocalo" value="@prod.Especificaciones.Zócalo"><br>
+
+                    <label class="Texto1Form velocidad" for="velocidad">Velocidad</label><br>
+                    <input class="Boton1Form velocidad" type="text" id="velocidad" name="Velocidad" value="@prod.Especificaciones.Velocidad"><br>
+
+                    <label class="Texto1Form TecnologiaRAM" for="TecnologiaRAM">Tecnologia RAM</label><br>
+                    <input class="Boton1Form TecnologiaRAM" type="text" id="TecnologiaRAM" name="TecnologiaRam" value="@prod.Especificaciones.TecnologíaRAM"><br>
+
+                    <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
+                    @for (int i = 0; i < prod.Especificaciones.Descripción.Count; i++)
+                    {
+                        <input class="Boton1Form descripcion" type="text" id="Descripcion" name="Descripcion" value="@prod.Especificaciones.Descripción[i]">
+
+                        <br>
+
+                    }
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" type="submit" id="crearProductoBtn"><i class="bi bi-save2-fill"></i>Guardar</button>
+        </form>
+    }
+</div>
+
+
+
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tipoSelect = document.getElementById('Tipo');
+        var tipoSpecific = document.getElementById('tipo-specific');
+
+        function hideAllSpecificFields() {
+            var tipoCampos = tipoSpecific.children;
+            for (var i = 0; i < tipoCampos.length; i++) {
+                tipoCampos[i].style.display = 'none';
+                setFieldsRequired(tipoCampos[i], false);
+            }
+        }
+
+        function setFieldsRequired(container, required) {
+            var inputElements = container.querySelectorAll('input, select');
+            for (var i = 0; i < inputElements.length; i++) {
+                inputElements[i].required = required;
+            }
+        }
+
+        hideAllSpecificFields();
+
+        tipoSelect.addEventListener('change', function () {
+            hideAllSpecificFields();
+
+            var selectedValue = tipoSelect.value;
+            var camposTipoSeleccionado = document.getElementById(selectedValue);
+            if (camposTipoSeleccionado) {
+                camposTipoSeleccionado.style.display = 'block';
+                setFieldsRequired(camposTipoSeleccionado, true);
+            }
+        });
+
+        // Obtener el valor del tipo de producto por defecto y seleccionarlo
+        var defaultTipoValue = '@Model[0].Tipo'; // Cambia esto según tu modelo
+        tipoSelect.value = defaultTipoValue;
+        tipoSelect.dispatchEvent(new Event('change'));
+
+        var imagenInput = document.getElementById('imagen');
+        var imagenPreview = document.getElementById('imagen-preview');
+        var imagenBase64Actual = document.getElementById('imagenBase64');
+
+        imagenInput.addEventListener('change', function () {
+            var file = imagenInput.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var newBase64 = e.target.result;
+                    imagenBase64.value = newBase64;
+                    imagenPreview.src = newBase64;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+ </script>

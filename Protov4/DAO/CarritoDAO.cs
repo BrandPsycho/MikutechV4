@@ -144,9 +144,9 @@ namespace Protov4.DAO
                         Imagen = p.Imagen,
                         existencias = p.Existencia,
                         Nombre_Producto = p.Nombre_Producto,
-                        Precio = 0, 
+                        Precio = 0,
                         cantidad = 0,
-                        subtotal_producto = 0 
+                        subtotal_producto = 0
                     }); ;
                     listmongo.AddRange(items);
                 }
@@ -186,16 +186,16 @@ namespace Protov4.DAO
             {
                 connection.Open();
                 cmd.Connection = connection;
-            cmd.CommandText = "EliminarCarrito";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@idpedido", id);
-            cmd.Parameters.AddWithValue("@idproducto", idproducto);
+                cmd.CommandText = "EliminarCarrito";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@idpedido", id);
+                cmd.Parameters.AddWithValue("@idproducto", idproducto);
 
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.ExecuteNonQuery();
             }
-          
+
         }
         // Registra un nuevo pedido en la base de datos
         public void RegistrarPedido(int id_cliente)

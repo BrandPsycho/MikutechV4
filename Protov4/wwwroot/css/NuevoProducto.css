@@ -1,0 +1,113 @@
+﻿/* Estilos generales para el formulario */
+#crearProductoForm {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* Estilo para los campos numéricos */
+.Boton1Form[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+}
+.Boton1Form {
+    border: 1px solid #ccc; /* Borde predeterminado */
+}
+
+
+.error-message {
+    display: none;
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    width: 100%;
+}
+
+
+    .Boton1Form[type="number"]:focus {
+        outline: none;
+        border-color: #1877f2; /* Color similar al azul de Facebook */
+        box-shadow: 0 0 4px rgba(24, 119, 242, 0.5);
+    }
+
+
+.espe{
+    transform:translateY(70%);
+}
+/* Estilos para los campos */
+.Boton1Form,
+.ComboForm {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    color: #333;
+}
+
+    .Boton1Form:focus,
+    .ComboForm:focus {
+        outline: none;
+        border-color: #1877f2; /* Color similar al azul de Facebook */
+        box-shadow: 0 0 4px rgba(24, 119, 242, 0.5);
+    }
+
+/* Estilos para el botón */
+#crearProductoBtn {
+    grid-column: span 2; /* Ocupar dos columnas completas */
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    #crearProductoBtn:hover {
+        background-color: #166fe5;
+    }
+
+/* Estilos para las etiquetas */
+.Texto1Form {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Estilos para las imágenes */
+#imagen-preview {
+    max-height: 200px;
+    display: block;
+    margin: 10px 0;
+}
+
+/* Estilos para la vista previa de la imagen */
+/* Puedes ajustar estos estilos según tus preferencias */
+#imagen-preview {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+/* Estilos para el formulario de tipo */
+#tipo-specific {
+    grid-column: span 2; /* Ocupar dos columnas completas */
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}

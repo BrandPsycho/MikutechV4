@@ -1,0 +1,98 @@
+﻿/* Estilo para el contenedor de las tarjetas */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+/* Estilos para los botones dentro de las tarjetas */
+.card-buttons {
+    display: flex; /* Mostrar los botones en línea */
+    justify-content: space-between; /* Distribuir el espacio entre los botones */
+    align-items: center; /* Centrar verticalmente los botones */
+    margin-top: 15px;
+}
+
+    .card-buttons button {
+        border-radius: 5px;
+        padding: 8px 15px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+/* Estilos para el botón de editar */
+.editBtn {
+    background-color: #007bff; /* Azul */
+    border: none;
+    color: white;
+}
+
+/* Estilos para el botón de eliminar */
+.deleteBtn {
+    background-color: #dc3545; /* Rojo */
+    border: none;
+    color: white;
+}
+
+/* Estilo para las tarjetas */
+.card {
+
+    background-color: #212529; /* Color de fondo más oscuro */
+    border-radius: 10px; /* Esquinas redondeadas */
+    overflow: hidden; /* Evitar que los bordes redondeados se vean afectados por contenido interno */
+    color: white; /* Texto en blanco */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    transition: transform 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
+}
+    .card:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+.card-img-top {
+    max-height: 200px;
+    object-fit: scale-down; /* Ajustar la imagen a la tarjeta */
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.card-buttons {
+    margin-top: 15px;
+}
+
+    .card-buttons button {
+        margin-right: 10px;
+    }
+
+/* Estilos para los botones */
+.btn {
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Azul */
+    border: none;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Rojo */
+    border: none;
+    color: white;
+}

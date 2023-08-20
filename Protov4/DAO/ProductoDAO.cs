@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Protov4.DTO;
+using System.Reflection;
 using System.Security.Cryptography;
 
 namespace Protov4.DAO
@@ -79,7 +80,34 @@ namespace Protov4.DAO
             var updateResult = prod.UpdateOne(filtro, update);
 
         }
+        public void ActualizarProducto(string _id,string nombre,double precio,string tipo,string imagenBase64,string Marca,int existencia,string Fabricante,string Modelo,string Velocidad,string Zocalo,string TamañoVram, string Interfaz,string Tamañomemoria,string TecnologiaRam,string Almacenamiento,List<string> Descripcion)
+        {
+            int index = imagenBase64.IndexOf(",") + 1;
+            string base64Data = imagenBase64.Substring(index);
+            byte[] imagenBytes = Convert.FromBase64String(base64Data);
 
+            var filter = Builders<ProductoDTO>.Filter.Eq(p => p.Id, ObjectId.Parse(_id)); // Filtrar por el ID del producto a actualizar
+
+            var update = Builders<ProductoDTO>.Update
+                .Set(p => p.Nombre_Producto, nombre)
+                .Set(p => p.Precio, precio)
+                .Set(p => p.Marca, Marca)
+                .Set(p => p.Existencia, existencia)
+                .Set(p => p.Tipo, tipo)
+                .Set(p => p.Imagen, imagenBytes)
+                .Set(p => p.Especificaciones.Fabricante, Fabricante)
+                .Set(p => p.Especificaciones.Modelo, Modelo)
+                .Set(p => p.Especificaciones.Velocidad, Velocidad)
+                .Set(p => p.Especificaciones.Zócalo, Zocalo)
+                .Set(p => p.Especificaciones.TamañoVRAM, TamañoVram)
+                .Set(p => p.Especificaciones.Interfaz, Interfaz)
+                .Set(p => p.Especificaciones.TecnologíaRAM, TecnologiaRam)
+                .Set(p => p.Especificaciones.Tamañomemoria, Tamañomemoria)
+                .Set(p => p.Especificaciones.Almacenamiento, Almacenamiento)
+                .Set(p => p.Especificaciones.Descripción, Descripcion);
+
+            var updateResult = prod.UpdateOne(filter, update);
+        }
         //Inserta un Producto
         public void InsertarProducto(string nombre,string imagenBase64,float precio,string Marca, int existencia,string tipo,string fabricante,string modelo,string velocidad,string Zócalo,string TamañoVRAM,string Interfaz,string TecnologiaRAM,string tamañomemoria,string Almacenamiento,List<string> Descripcion)
         {

@@ -6,6 +6,8 @@ namespace Protov4.DAO
     {
         //Insertar nuevo Producto 
         public abstract void InsertarProducto(string nombre, string imagen,float precio, string Marca, int existencia, string tipo, string fabricante, string modelo, string velocidad, string Zócalo, string TamañoVRAM, string Interfaz, string TecnologiaRAM, string tamañomemoria, string Almacenamiento, List<string> Descripcion);
+        //Editar Producto
+        public abstract void ActualizarProducto(string _id, string nombre, double precio, string tipo, string imagenBase64, string Marca, int existencia, string Fabricante, string Modelo, string Velocidad, string Zocalo, string TamañoVram, string Interfaz, string Tamañomemoria, string TecnologiaRam, string Almacenamiento, List<string> Descripcion);
 
         // Obtiene una lista de todos los productos basados en un tipo
         public abstract List<ProductoDTO> GetAllProductos(string tipo);

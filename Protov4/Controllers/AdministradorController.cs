@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Protov4.DAO;
 using Protov4.DTO;
+using System.Security.Cryptography;
 
 namespace Protov4.Controllers
 {
@@ -32,7 +33,20 @@ namespace Protov4.Controllers
                 Imagen = p.Imagen,
                 Marca = p.Marca,
                 Existencia = p.Existencia,
-                Tipo = p.Tipo
+                Tipo = p.Tipo,
+                Especificaciones = new EspecificacionesDTO
+                {
+                    Fabricante=p.Especificaciones.Fabricante,
+                    Modelo=p.Especificaciones.Modelo,
+                    Zócalo=p.Especificaciones.Zócalo,
+                    Velocidad=p.Especificaciones.Velocidad,
+                    TamañoVRAM=p.Especificaciones.TamañoVRAM,
+                    Interfaz=p.Especificaciones.Interfaz,
+                    TecnologíaRAM=p.Especificaciones.TecnologíaRAM,
+                    Almacenamiento=p.Especificaciones.Almacenamiento,
+                    Tamañomemoria=p.Especificaciones.Tamañomemoria,
+                    Descripción=p.Especificaciones.Descripción
+                }
             }).ToList();
 
             return ProductoDTO;
@@ -79,6 +93,51 @@ namespace Protov4.Controllers
             var productos = ListarProductos("");
             return View("Productos", productos);
         }
+      
+        public ActionResult EditarProducto(string _id)
+        {
+            var productos = ObjetoSeleccion(_id);
+            return View(productos);
+        }
+        public ActionResult EditarProductoDAO(string _id, string nombre, double precio, string tipo, string imagenBase64, string Marca, int existencia, string Fabricante, string Modelo, string Velocidad, string Zocalo, string TamañoVram, string Interfaz, string Tamañomemoria, string TecnologiaRam, string Almacenamiento, List<string> Descripcion)
+        {
+            List<string> descripcionesSinDuplicados = Descripcion.Distinct().ToList();
 
+            db.ActualizarProducto(_id, nombre, precio, tipo, imagenBase64, Marca, existencia, Fabricante, Modelo, Velocidad, Zocalo, TamañoVram, Interfaz, Tamañomemoria, TecnologiaRam, Almacenamiento, descripcionesSinDuplicados);
+            var productos = ListarProductos("");
+            return View("Productos", productos);
+        }
+        [HttpGet]
+        public List<ProductoDTO> ObjetoSeleccion(string _id)
+        {
+            List<ProductoDTO> productos;
+            productos = db.GetSeleccion(_id);
+            var ProductoDTO = productos.Select(p => new ProductoDTO
+            {
+                Id = p.Id,
+                Nombre_Producto = p.Nombre_Producto,
+                Precio = p.Precio,
+                Imagen = p.Imagen,
+                Marca = p.Marca,
+                Existencia = p.Existencia,
+                Tipo = p.Tipo,
+                Especificaciones = new EspecificacionesDTO
+                {
+                    Fabricante = p.Especificaciones.Fabricante,
+                    Modelo = p.Especificaciones.Modelo,
+                    Velocidad = p.Especificaciones.Velocidad,
+                    Zócalo = p.Especificaciones.Zócalo,
+                    TamañoVRAM = p.Especificaciones.TamañoVRAM,
+                    Interfaz = p.Especificaciones.Interfaz,
+                    Tamañomemoria = p.Especificaciones.Tamañomemoria,
+                    TecnologíaRAM = p.Especificaciones.TecnologíaRAM,
+                    Almacenamiento = p.Especificaciones.Almacenamiento,
+                    Descripción = p.Especificaciones.Descripción
+                }
+
+            }).ToList();
+
+            return ProductoDTO;
+        }
     }
 }

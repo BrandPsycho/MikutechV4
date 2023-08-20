@@ -120,17 +120,20 @@ namespace Protov4.Controllers
                 }
                 else
                 {
-                  
+                    ClaimsPrincipal cl = HttpContext.User;
+                    if (cl.Identity != null && cl.Identity.IsAuthenticated) // Verificar si el usuario está autenticado y obtener su ID de cliente para listar sus pedidos
+                    {
+                        if (int.TryParse(cl.FindFirstValue("id_cliente"), out int idCliente))
+                        {
+                            db.RegistrarPedido(idCliente);
+                        }
+                    }
                     id_pedido = db.ObtenerIdPedido();
                     TempData["PedidoRegistrado"] = true;
                     HttpContext.Session.SetInt32("IdPedidoActual", id_pedido);
                    
                 }
-                ClaimsPrincipal c = HttpContext.User;
-
-                var idUsuarioClaim = c.FindFirstValue("id_usuario");
-
-                db.RegistrarPedido(int.Parse(idUsuarioClaim));
+                
                 db.insertarCarrito(id_pedido, id_producto, precio, cantidad, subtotal);
 
                 return Json(new { success = true });

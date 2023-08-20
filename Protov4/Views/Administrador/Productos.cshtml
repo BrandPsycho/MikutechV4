@@ -9,67 +9,60 @@
 <div>
     <button class="btn btn-secondary" id="crearProductoBtn">Crear Nuevo</button>
 </div>
-<div>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Imagen</th>
-            <th>Marca</th>
-            <th>Existencias</th>
-            <th>Tipo</th>
-            <th></th>
-        </tr>
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            var carr = Model[i];
-            byte[] imagenBytes = carr.Imagen;
-            string base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
-            <tr>
-                <td> @carr.Id</td>
-                <td> @carr.Nombre_Producto</td>
-                <td> $ @carr.Precio</td>
-                <td><img src="@base64" width="200" height="200"></td>
-                <td>@carr.Marca</td>
-                <td>@carr.Existencia</td>
-                <td>@carr.Tipo</td>
-                <td>
+<div class="card-container">
+    @foreach (var carr in Model)
+    {
+        var imagenBytes = carr.Imagen;
+        var base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
+
+        <div class="card">
+            <img src="@base64" alt="@carr.Nombre_Producto" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">@carr.Nombre_Producto</h5>
+                <p class="card-text">Precio: $@carr.Precio</p>
+                <p class="card-text">Marca: @carr.Marca</p>
+                <p class="card-text">Existencias: @carr.Existencia</p>
+                <p class="card-text">Tipo: @carr.Tipo</p>
+                <div class="card-buttons">
+                    <form action="@Url.Action("EditarProducto", "Administrador",new{_id=carr.Id})" method="post">
+                    <button class="btn btn-primary shadow-sm editBtn"  ><i class="bi bi-pencil-square"></i> Editar</button>
+                    </form>
                     <form class="deleteForm" id="deleteForm-@carr.Id" action="@Url.Action("eliminarProducto", "Administrador")" method="post">
                         <input type="hidden" name="id" value="@carr.Id" />
-                        <button class="btn btn-danger shadow-sm" type="submit"><i class="bi bi-trash3"></i></button>
+                        <button class="btn btn-danger shadow-sm" type="submit"><i class="bi bi-trash3"></i> Eliminar</button>
                     </form>
-                </td>
-            </tr>
-        }
-    </table>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
+<!-- Formulario de edición oculto -->
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var deleteForms = document.querySelectorAll(".deleteForm");
 
-        deleteForms.forEach(function (form) {
-            form.addEventListener("submit", function (e) {
-                e.preventDefault(); // Evita el envío automático del formulario
+        deleteForms.forEach(function (deleteForm) {
+            deleteForm.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevenir el envío del formulario de inmediato
 
-                var formData = new FormData(form);
-                var productId = formData.get("id");
+                var productId = deleteForm.querySelector('input[name="id"]').value;
 
                 Swal.fire({
                     title: 'Eliminar Producto',
-                    text: '¿Estás seguro de que deseas eliminar este producto?',
+                    text: '¿Estás seguro de que quieres eliminar este Producto?',
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var id_producto = formData.get("id");
-                        form.submit();
+                        // Enviar el formulario de eliminación al servidor
+                        deleteForm.submit();
                     }
                 });
             });

@@ -95,6 +95,11 @@ namespace Protov4.DAO
         {
             productoDAO.eliminarProducto(id);
         }
+
+        public override void ActualizarProducto(string _id, string nombre, double precio, string tipo, string imagenBase64, string Marca, int existencia, string Fabricante, string Modelo, string Velocidad, string Zocalo, string TamañoVram, string Interfaz, string Tamañomemoria, string TecnologiaRam, string Almacenamiento, List<string> Descripcion)
+        {
+            productoDAO.ActualizarProducto(_id,nombre,precio,tipo,imagenBase64,Marca,existencia,Fabricante,Modelo,Velocidad,Zocalo,TamañoVram,Interfaz,Tamañomemoria,TecnologiaRam,Almacenamiento,Descripcion);
+        }
     }
 }
     
