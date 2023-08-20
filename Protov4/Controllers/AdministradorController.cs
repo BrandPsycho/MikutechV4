@@ -39,8 +39,8 @@ namespace Protov4.Controllers
         }
         public ActionResult Auditoria()
         {
-            var audotira = obtenerAuditoria();
-            return View(audotira);
+            var auditoria = obtenerAuditoria();
+            return View(auditoria);
         }
         [HttpGet]
         public List<AuditoriaDTO> obtenerAuditoria()
@@ -55,7 +55,7 @@ namespace Protov4.Controllers
                 apellido_cliente = p.apellido_cliente,
                 correo_elec = p.correo_elec,
                 fecha_inicio_sesion = p.fecha_inicio_sesion,
-                fecha_cierre_session = p.fecha_cierre_session
+                fecha_cierre_sesion = p.fecha_cierre_sesion
             }).ToList();
 
             return AuditoriaDTO;
@@ -68,7 +68,7 @@ namespace Protov4.Controllers
         [HttpPost]
         public ActionResult NuevoProducto(string nombre, string imagenBase64, float precio, string Marca, int existencia, string tipo, string fabricante, string modelo, string velocidad, string Zócalo, string TamañoVRAM, string Interfaz, string TecnologiaRAM, string tamañomemoria, string Almacenamiento, List<string> Descripcion)
         {
-            db.InsertarProducto(nombre, imagenBase64,precio, Marca, existencia, tipo, fabricante, modelo, velocidad, Zócalo, TamañoVRAM, Interfaz, TecnologiaRAM, tamañomemoria, Almacenamiento, Descripcion);
+            db.InsertarProducto(nombre, imagenBase64, precio, Marca, existencia, tipo, fabricante, modelo, velocidad, Zócalo, TamañoVRAM, Interfaz, TecnologiaRAM, tamañomemoria, Almacenamiento, Descripcion);
             var productos = ListarProductos("");
             return View("Productos", productos);
         }

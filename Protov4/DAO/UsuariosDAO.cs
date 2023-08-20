@@ -21,41 +21,57 @@ namespace Protov4.DAO
         }
 
         // Método para validar las credenciales del usuario al intentar iniciar sesión
-        public ((int id_usuario, int id_rol_user), int id_cliente) ValidarUsuario(UsuariosDTO nuser)
+        public (int id_usuario, int id_rol_user, int id_cliente, string nombre_compuesto) ValidarUsuario(UsuariosDTO nuser)
         {
             int id_usuario = 0;
             int id_cliente = 0;
             int id_rol_user = 0;
+            string nombre_compuesto = string.Empty;
 
-            nuser.contrasena = ConvertirSha256(nuser.contrasena); // Convertir la contraseña a su hash SHA256 correspondiente
+            nuser.contrasena = ConvertirSha256(nuser.contrasena);
+
             using (var connection = GetSqlConnection())
             {
-                connection.Open(); // Abrir la conexión a la base de datos
-                // Se hace el llamado al procedimiento almacenado y se le envía los parámetros requeridos
+                connection.Open();
                 SqlCommand cmd = new SqlCommand("Login_ValidarUsuario", connection);
                 cmd.Parameters.AddWithValue("@correo_elec", nuser.correo_elec);
                 cmd.Parameters.AddWithValue("@contrasena", nuser.contrasena);
                 cmd.CommandType = CommandType.StoredProcedure;
+
                 using (var reader = cmd.ExecuteReader())
                 {
-                    if (reader.Read()) // Extraer la información del usuario autenticado
+                    if (reader.Read())
                     {
                         id_usuario = Convert.ToInt32(reader["id_usuario"]);
                         id_rol_user = Convert.ToInt32(reader["id_rol_user"]);
                         id_cliente = Convert.ToInt32(reader["id_cliente"]);
 
-                    }
+                        if (id_rol_user == 1)
+                        {
+                            nombre_compuesto = "Administrador";
+                        }
+                        else
+                        {
+                            reader.Close();
+                            using (var cmdNombre = new SqlCommand("ObtenerNombreCompuestoPorIdCliente", connection))
+                            {
+                                cmdNombre.CommandType = CommandType.StoredProcedure;
+                                cmdNombre.Parameters.AddWithValue("@id_cliente", id_cliente);
 
-                    if (id_usuario == 0 && id_rol_user == 0) // Si no se encuentra un usuario válido, se resetean los valores
-                    {
-                        id_usuario = 0;
-                        id_cliente = 0;
-                        id_rol_user = 0;
+                                using (var readerNombre = cmdNombre.ExecuteReader())
+                                {
+                                    if (readerNombre.Read())
+                                    {
+                                        nombre_compuesto = readerNombre["nombre_compuesto"].ToString();
+                                    }
+                                }
+                            }
+                        }
                     }
-
                 }
-                connection.Close(); // Cerrar la conexión a la base de datos
-                return ((id_usuario, id_rol_user), id_cliente);
+
+                connection.Close();
+                return (id_usuario, id_rol_user, id_cliente, nombre_compuesto);
             }
         }
 
@@ -170,6 +186,29 @@ namespace Protov4.DAO
                 return new List<MisPedidosDTO>();
             }
         }
+
+        //private string ObtenerNombreCompuesto(int idCliente)
+        //{
+        //    using (var connection = GetSqlConnection())
+        //    {
+        //        connection.Open();
+        //        SqlCommand cmd = new SqlCommand("ObtenerNombreCompuestoPorIdCliente", connection);
+        //        cmd.Parameters.AddWithValue("@id_cliente", idCliente);
+
+        //        using (var reader = cmd.ExecuteReader())
+        //        {
+        //            if (reader.Read())
+        //            {
+        //                string nombre_compuesto = reader["nombre_compuesto"].ToString();
+        //                return nombre_compuesto;
+        //            }
+        //            else
+        //            {
+        //                return "Nombre Desconocido"; // O cualquier otro valor predeterminado
+        //            }
+        //        }
+        //    }
+        //}
 
         // Método estático para convertir un texto en su hash SHA256 correspondiente
         public static string ConvertirSha256(string texto)

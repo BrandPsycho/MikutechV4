@@ -3,11 +3,25 @@
     Layout = "~/Views/Administrador/_LayoutAdmin.cshtml";
 }
 @model List<AuditoriaDTO>
+@section styles {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+}
 <div class="title-auditoria">
     <h1>Auditoria</h1>
 </div>
+<div class="filter-section">
+    <div class="date-filter">
+        <label for="startDate">Fecha Inicio:</label>
+        <input type="date" id="startDate" name="startDate" />
+
+        <label for="endDate">Fecha Fin:</label>
+        <input type="date" id="endDate" name="endDate" />
+
+        <button id="date-filter-button">Filtrar por Fecha</button>
+    </div>
+</div>
 <div>
-    <table class="tabla-pedidos">
+    <table id="auditoriaTable" class="tabla-pedidos">
         <thead>
             <tr>
                 <th>Id_Auditoria</th>
@@ -31,8 +45,34 @@
                 <td> @carr.apellido_cliente</td>
                 <td> @carr.correo_elec</td>
                 <td> @carr.fecha_inicio_sesion</td>
-                <td>@carr.fecha_cierre_session </td>
+                <td>@carr.fecha_cierre_sesion </td>
             </tr>
         }
     </table>
 </div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            const dataTable = $('#auditoriaTable').DataTable({
+                paging: true, // Habilita la paginación
+                pageLength: 10, // Número de filas por página
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]] // Opciones de número de filas por página
+            });
+
+            $('#search-button').click(function () {
+                dataTable.search($('#search').val()).draw();
+            });
+
+            $('#date-filter-button').click(function () {
+                const startDate = $('#startDate').val();
+                const endDate = $('#endDate').val();
+                dataTable.columns(5).search(startDate, endDate).draw();
+            });
+        });
+    </script>
+}

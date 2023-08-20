@@ -1,12 +1,13 @@
-﻿﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="shortcut icon" type="image/x-icon" href="~/recursos/miku.ico">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
@@ -25,16 +26,17 @@
     <header>
         <nav class="navbar-custom">
             <div class="logo">
-            <a   asp-area="" asp-controller="Home" asp-action="Index">
-           
-                <img src="~/recursos/Miku_logo.png" alt="Logo de MIKUTECH" >
-                <h1>MIKUTECH</h1>
-            
-            </a></div>
+                <a asp-area="" asp-controller="Home" asp-action="Index">
+
+                    <img src="~/recursos/Miku_logo.png" alt="Logo de MIKUTECH">
+                    <h1>MIKUTECH</h1>
+
+                </a>
+            </div>
             <div class="botonera">
                 <ul class="navbar-nav-custom">
                     <li class="nav-item-custom">
-                        <a class="nav-link-custom"  asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                        <a class="nav-link-custom" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                     </li>
                     <li class="dropdown" style="z-index:100">
                         <a class="nav-link-custom" asp-area="" asp-controller="Producto" asp-action="Producto">Tienda</a>
@@ -56,8 +58,11 @@
                     <li class="nav-item-custom">
                         <a class="nav-link-custom" asp-area="" asp-controller="Home" asp-action="MiCuenta">Mi cuenta</a>
                     </li>
-                    <li class="nav-item-custom">
-                        <a class="nav-link-custom-btn" asp-area="" asp-controller="Acceso" asp-action="Logout">Cerrar sesión</a>
+                    <li class="dropdown" style="z-index:100">
+                        <a class="nav-link-custom-btn">@User.Identity.Name<i class="fa-regular fa-user"></i></a>
+                        <div class="dropdown-content">
+                            <a class="nav-link text-white elementodrop" asp-area="" asp-controller="Acceso" asp-action="Logout">Cerrar Sesión</a>
+                        </div>
                     </li>
                 </ul>
             </div>
