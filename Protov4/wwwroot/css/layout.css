@@ -145,4 +145,8 @@ body{
     overflow-x:hidden;
 }
 
+.nav-link-custom.selected { /* Cambia este color según tu diseño */
+    color: #12CDD4;
+}
+
 

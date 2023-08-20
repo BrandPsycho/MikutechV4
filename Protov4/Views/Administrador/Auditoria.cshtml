@@ -5,32 +5,24 @@
 @model List<AuditoriaDTO>
 @section styles {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+    <link href="~/css/auditoria.css" rel="stylesheet" asp-append-version="true" />
 }
 <div class="title-auditoria">
-    <h1>Auditoria</h1>
+    <h1>Auditoria<i class="fa fa-file-text" style="margin-left: 15px; margin-bottom: 3px; font-size: 28px;"></i></h1>
 </div>
 <div class="filter-section">
-    <div class="date-filter">
-        <label for="startDate">Fecha Inicio:</label>
-        <input type="date" id="startDate" name="startDate" />
-
-        <label for="endDate">Fecha Fin:</label>
-        <input type="date" id="endDate" name="endDate" />
-
-        <button id="date-filter-button">Filtrar por Fecha</button>
-    </div>
 </div>
-<div>
+<div class="container-custom">
     <table id="auditoriaTable" class="tabla-pedidos">
         <thead>
             <tr>
                 <th>Id_Auditoria</th>
                 <th>Id_Usuario</th>
-                <th>Nombres</th>
+                <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Correo electrónico</th>
-                <th>Fecha_Inicio_Sesion</th>
-                <th>Fecha_Cierre_Sesion</th>
+                <th>Fecha_Inicio_Sesión</th>
+                <th>Fecha_Cierre_Sesión</th>
             </tr>
         </thead>
 
@@ -61,8 +53,32 @@
             const dataTable = $('#auditoriaTable').DataTable({
                 paging: true, // Habilita la paginación
                 pageLength: 10, // Número de filas por página
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]] // Opciones de número de filas por página
-            });
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]], // Opciones de número de filas por página
+                language: {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+                });
 
             $('#search-button').click(function () {
                 dataTable.search($('#search').val()).draw();

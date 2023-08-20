@@ -36,10 +36,10 @@
             <div class="botonera">
                 <ul class="navbar-nav-custom">
                     <li class="nav-item-custom">
-                        <a class="nav-link-custom" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                        <a class="nav-link-custom @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "selected" : "")" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                     </li>
                     <li class="dropdown" style="z-index:100">
-                        <a class="nav-link-custom" asp-area="" asp-controller="Producto" asp-action="Producto">Tienda</a>
+                        <a class="nav-link-custom @(ViewContext.RouteData.Values["controller"].ToString() == "Producto" ? "selected" : "")" asp-area="" asp-controller="Producto" asp-action="Producto">Tienda</a>
                         <div class="dropdown-content">
                             <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Procesador" })'">Procesadores</a>
                             <a class="nav-link text-white elementodrop" onclick="window.location.href='@Url.Action("Producto", "Producto", new { tipo = "Gráfica" })'">Gráficas</a>
@@ -50,13 +50,13 @@
                         </div>
                     </li>
                     <li class="nav-item-custom">
-                        <a class="nav-link-custom" asp-area="" asp-controller="Carrito" asp-action="Carrito">Carrito</a>
+                        <a class="nav-link-custom @(ViewContext.RouteData.Values["action"].ToString() == "Carrito" && ViewContext.RouteData.Values["controller"].ToString() == "Carrito" ? "selected" : "")" asp-area="" asp-controller="Carrito" asp-action="Carrito">Carrito</a>
                     </li>
                     <li class="nav-item-custom">
-                        <a class="nav-link-custom" asp-area="" asp-controller="Home" asp-action="AcercaDe">Acerca de</a>
+                        <a class="nav-link-custom @(ViewContext.RouteData.Values["action"].ToString() == "AcercaDe" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "selected" : "")" asp-area="" asp-controller="Home" asp-action="AcercaDe">Acerca de</a>
                     </li>
-                    <li class="nav-item-custom">
-                        <a class="nav-link-custom" asp-area="" asp-controller="Home" asp-action="MiCuenta">Mi cuenta</a>
+                    <li class="nav-item-custom ">
+                        <a class="nav-link-custom @(ViewContext.RouteData.Values["action"].ToString() == "MiCuenta" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "selected" : "")" asp-area="" asp-controller="Home" asp-action="MiCuenta">Mi cuenta</a>
                     </li>
                     <li class="dropdown" style="z-index:100">
                         <a class="nav-link-custom-btn">@User.Identity.Name<i class="fa-regular fa-user"></i></a>
