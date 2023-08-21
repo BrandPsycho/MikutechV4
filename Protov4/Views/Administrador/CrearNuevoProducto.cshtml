@@ -8,8 +8,8 @@
         <label class="Texto1Form" for="nombre">Nombre Producto</label><br>
         <input class="Boton1Form" type="text" id="nombre" name="nombre" required><br />
         <label class="Texto1Form" for="imagen">Imagen</label><br>
-        <input class="Boton1Form" type="file" id="imagen"  accept="image/*" required><br>
-        <img id="imagen-preview"  src="#" alt="Vista Previa de la Imagen" style="max-width: 200px; display: none;"><br>
+        <input class="Boton1Form" type="file" id="imagen" accept="image/*" required><br>
+        <img id="imagen-preview" src="#" alt="Vista Previa de la Imagen" style="max-width: 200px; display: none;"><br>
         <input hidden id="imagenBase64" name="imagenBase64" />
 
         <label class="Texto1Form" for="precio">Precio</label><br>
@@ -28,11 +28,11 @@
 
         <label class="Texto1Form" for="marca">Marca</label><br>
         <input class="Boton1Form" type="text" id="marca" name="marca" required><br>
-        
+
 
         <label class="Texto1Form" for="Tipo">Tipo</label><br>
         <select class="ComboForm" id="Tipo" name="Tipo">
-            <option value="Procesador">Procesador</option>
+            <option value="Procesador" selected>Procesador</option>
             <option value="Gráfica">Gráfica</option>
             <option value="Almacenamiento">Almacenamiento</option>
             <option value="Ram">Ram</option>
@@ -41,12 +41,11 @@
         </select><br />
         <h4 class="espe">Especificaciones</h4>
         <!-- Campos específicos para cada tipo -->
-        <div id="tipo-specific">
-    
-            <!-- Campos para Procesador -->
+        <div id="tipo-specific" class="hidden">
+            <!-- Campos específicos para todos los tipos de productos -->
             <div class="input-container">
                 <label class="Texto1Form" id="lblvelocidad" for="velocidad">Velocidad</label>
-                <input class="Boton1Form" type="text" id="velocidad" name="Velocidad" >
+                <input class="Boton1Form" type="text" id="velocidad" name="Velocidad">
             </div>
             <div class="input-container">
                 <label class="Texto1Form" id="lblfabricante" for="fabricante">Fabricante</label>
@@ -56,19 +55,19 @@
             <input class="Boton1Form" type="text" id="modelo" name="Modelo" >
             <div class="input-container">
                 <label class="Texto1Form" id="lblzocalo" for="zocalo">Zócalo</label>
-                <input class="Boton1Form" type="text" id="zocalo" name="Zocalo" >
+                <input class="Boton1Form" type="text" id="zocalo" name="Zocalo">
             </div>
             <label class="Texto1Form" id="lblvram" for="tamanioVram">Tamaño VRAM</label>
-            <input class="Boton1Form" type="text" id="tamanioVram" name="TamanioVram" >
+            <input class="Boton1Form" type="text" id="tamanioVram" name="TamanioVram">
             <div class="input-container">
                 <label class="Texto1Form" id="lblinterfaz" for="interfaz">Interfaz</label>
-                <input class="Boton1Form" type="text" id="interfaz" name="Interfaz">
+                <input class="Boton1Form" type="text" id="interfaz" name="Interfaz" >
             </div>
             <label class="Texto1Form" id="lblalmacenamiento">Almacenamiento</label>
             <input class="Boton1Form" type="text" id="almacenamiento" name="Almacenamiento" >
             <div class="input-container">
                 <label class="Texto1Form" id="lbltecnologiaRam" for="tecnologiaRam">Tecnología RAM</label>
-                <input class="Boton1Form" type="text" id="tecnologiaRam" name="TecnologiaRam">
+                <input class="Boton1Form" type="text" id="tecnologiaRam" name="TecnologiaRam" >
             </div>
             <div class="input-container">
                 <label class="Texto1Form" id="lbltamañomemoria">Tamaño Memoria</label>
@@ -76,23 +75,12 @@
             </div>
 
         </div>
-        <label class="Texto1Form" for="descripcion">Descripción</label><br>
-        <table id="descripcionTable">
-            <tbody>
-               
-                    <tr>
-                        <td>
-                            <input class="Boton1Form descripcion" type="text" name="Descripcion" >
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-link remove-row">Eliminar</button>
-                        </td>
-                    </tr>
-                
-            </tbody>
-        </table>
-        <button type="button" class="btn btn-link add-row">Agregar Descripción</button>
-        <input type="hidden" name="NuevasDescripcionesJson" id="nuevasDescripcionesJson" />
+
+        
+        <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
+        <button class="btn btn-secondary" type="button" id="agregarCampo">Agregar Descripción</button>
+        <div id="campo-dinamico"></div>
+        <input type="hidden" id="campos-dinamicos-hidden" name="Descripcion" value="">
 
         <button class="btn btn-secondary" type="submit" id="crearProductoBtn">Crear Producto</button>
     </form>
@@ -140,46 +128,8 @@
             lbltamaniomemoria.style.display = 'none';
             lbltecnologiaRam.style.display = 'none';
         }
-        var descriptionTable = document.getElementById('descripcionTable');
-        var addRowButton = document.querySelector('.add-row');
 
-        addRowButton.addEventListener('click', function () {
-            var newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                    <td>
-                        <input class="Boton1Form descripcion" type="text" name="NuevasDescripciones[]" />
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-link remove-row">Eliminar</button>
-                    </td>`;
-            descriptionTable.querySelector('tbody').appendChild(newRow);
-        });
-
-        // Removing a row from the table
-        descripcionTable.addEventListener('click', function (event) {
-            if (event.target.classList.contains('remove-row')) {
-                event.target.closest('tr').remove();
-            }
-        });
-
-        // ...Other code...
-
-        // Submitting the form
-        var crearProductoForm = document.getElementById('crearProductoForm');
-
-        crearProductoForm.addEventListener('submit', function () {
-            var descripcionInputs = document.querySelectorAll('.Boton1Form.descripcion');
-            var nuevasDescripciones = [];
-
-            descripcionInputs.forEach(function (input) {
-                nuevasDescripciones.push(input.value);
-            });
-
-            var nuevasDescripcionesJsonInput = document.getElementById('nuevasDescripcionesJson');
-            nuevasDescripcionesJsonInput.value = JSON.stringify(nuevasDescripciones);
-        });
-        hideAllSpecificFields();
-
+ 
         tipoSelect.addEventListener('change', function () {
             hideAllSpecificFields();
 
@@ -304,31 +254,117 @@
                 campostamanioMemoria.required = false;
             }
         });
-        var camposDinamicosHidden = document.getElementById('campos-dinamicos-hidden');
+
+        hideAllSpecificFields();
 
 
-        // Seleccionar el valor por defecto
         var defaultTipoValue = 'Procesador';
 
         tipoSelect.value = defaultTipoValue;
 
         tipoSelect.dispatchEvent(new Event('change'));
 
-        var imagenInput = document.getElementById('imagen');
-        var imagenPreview = document.getElementById('imagen-preview');
-        var imagenBase64Actual = document.getElementById('imagenBase64');
 
-        imagenInput.addEventListener('change', function () {
-            var file = imagenInput.files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    imagenPreview.src = e.target.result;
-                    imagenPreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
+        document.getElementById('agregarCampo').addEventListener('click', function () {
+            var newInput = document.createElement('input');
+            newInput.classList.add('Boton1Form');
+            newInput.type = 'text';
+            newInput.name = 'nuevoCampo[]'; // Cambia el nombre según tus necesidades
+
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Eliminar';
+            deleteButton.type = 'button';
+            deleteButton.classList.add('btn', 'btn-danger');
+            deleteButton.addEventListener('click', function () {
+                parentDiv.removeChild(newInput);
+                parentDiv.removeChild(deleteButton);
+                updateHiddenField();
+            });
+
+            var parentDiv = document.getElementById('campo-dinamico');
+            parentDiv.appendChild(newInput);
+            parentDiv.appendChild(deleteButton);
+        });
+
+        var crearProductoForm = document.getElementById('crearProductoForm');
+
+        crearProductoForm.addEventListener('submit', function (event) {
+            var inputs = crearProductoForm.querySelectorAll('input[required]');
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value.trim() === '') {
+                    event.preventDefault();
+                    alert('Por favor, completa todos los campos requeridos.');
+                    return;
+                }
+            }
+
+            updateHiddenField();
+            confirmSubmit();
+        });
+
+        function confirmSubmit() {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Se creará un nuevo producto',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, crear producto',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    crearProductoForm.submit();
+                }
+            });
+        }
+
+        document.getElementById('precio').addEventListener('input', function () {
+            var precioError = document.getElementById('precio-error');
+            if (this.validity.valid) {
+                precioError.style.display = 'none';
+            } else {
+                precioError.style.display = 'block';
             }
         });
+
+        document.getElementById('existencia').addEventListener('input', function () {
+            var existenciaError = document.getElementById('existencia-error');
+            if (this.validity.valid) {
+                existenciaError.style.display = 'none';
+            } else {
+                existenciaError.style.display = 'block';
+            }
+        });
+
+        document.getElementById('imagen').addEventListener('change', function (e) {
+            var fileInput = e.target;
+            var previewImage = document.getElementById('imagen-preview');
+            var imagenBase64Field = document.getElementById('imagenBase64'); // Campo oculto para almacenar la imagen en Base64
+
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (event) {
+                    var base64Image = event.target.result;
+                    previewImage.src = base64Image;
+                    previewImage.style.display = 'block';
+
+                    // Asignar el valor Base64 al campo oculto
+                    imagenBase64Field.value = base64Image;
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                previewImage.src = '#';
+                previewImage.style.display = 'none';
+                imagenBase64Field.value = '';
+            }
+        });
+
+        function updateHiddenField() {
+            var inputs = document.querySelectorAll('#campo-dinamico input');
+            var values = Array.from(inputs).map(input => input.value);
+            document.getElementById('campos-dinamicos-hidden').value = values.join(',');
+        }
     });
 </script>
-
