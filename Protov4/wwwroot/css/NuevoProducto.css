@@ -1,4 +1,28 @@
-﻿/* Estilos generales para el formulario */
+﻿
+#tipo-specific {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ejemplo de ajuste de margen inferior en campos específicos */
+.input-container {
+    margin-bottom: 0; /* Ajustar o eliminar margen inferior */
+}
+
+/* Ajustar elementos flex */
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Opcional: Alinear elementos a la izquierda */
+}
+
+/* Eliminar margen inferior entre elementos flex */
+.flex-item {
+    margin-bottom: 0;
+}
+
+
+/* Ajustar contenedores al contenido */
 #crearProductoForm {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -9,7 +33,10 @@
     background-color: #f7f7f7;
     border: 1px solid #ccc;
     border-radius: 5px;
+    /* Ajustar alto automáticamente */
+    align-content: start; /* Opcional: Alinear contenido arriba */
 }
+
 /* Estilo para los campos numéricos */
 .Boton1Form[type="number"] {
     width: 100%;

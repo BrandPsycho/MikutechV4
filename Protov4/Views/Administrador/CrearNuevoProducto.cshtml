@@ -8,9 +8,9 @@
         <label class="Texto1Form" for="nombre">Nombre Producto</label><br>
         <input class="Boton1Form" type="text" id="nombre" name="nombre" required><br />
         <label class="Texto1Form" for="imagen">Imagen</label><br>
-        <input class="Boton1Form" type="file" id="imagen" name="imagen" accept="image/*"><br>
-        <img id="imagen-preview" src="#" alt="Vista Previa de la Imagen" style="max-width: 200px; display: none;"><br>
-
+        <input class="Boton1Form" type="file" id="imagen"  accept="image/*" required><br>
+        <img id="imagen-preview"  src="#" alt="Vista Previa de la Imagen" style="max-width: 200px; display: none;"><br>
+        <input hidden id="imagenBase64" name="imagenBase64" />
 
         <label class="Texto1Form" for="precio">Precio</label><br>
         <div class="input-container">
@@ -56,9 +56,6 @@
 
                 <label class="Texto1Form" for="Zócalo">Zócalo</label><br>
                 <input class="Boton1Form" type="text" id="Zócalo" name="Zócalo"><br>
-
-                <label class="Texto1Form" for="descripcion">Descripción</label><br>
-                <input class="Boton1Form" type="text" id="descripcion" name="descripcion"><br>
             </div>
 
             <!-- Campos para Gráfica -->
@@ -77,9 +74,6 @@
 
                 <label class="Texto1Form" for="Interfaz">Interfaz</label><br>
                 <input class="Boton1Form" type="text" id="Interfaz" name="Interfaz"><br>
-
-                <label class="Texto1Form" for="descripcion">Descripción</label><br>
-                <input class="Boton1Form" type="text" id="descripcion" name="descripcion"><br>
             </div>
 
             <!-- Campos para Almacenamiento -->
@@ -93,8 +87,6 @@
                 <label class="Texto1Form Almacenamiento" for="Almacenamiento">Almacenamiento</label><br>
                 <input class="Boton1Form Almacenamiento" type="text" id="Almacenamiento" name="Almacenamiento"><br>
 
-                <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
-                <input class="Boton1Form descripcion" type="text" id="Descripcion" name="Descripcion"><br>
             </div>
             <div id="Ram">
                 <label class="Texto1Form fabricante" for="fabricante">Fabricante</label><br>
@@ -112,15 +104,10 @@
                 <label class="Texto1Form tamañomemoria" for="tamañomemoria">Tamaño Memoria</label><br>
                 <input class="Boton1Form tamañomemoria" type="text" id="tamañomemoria" name="tamañomemoria"><br>
 
-                <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
-                <input class="Boton1Form descripcion" type="text" id="Descripcion" name="Descripcion"><br>
             </div>
             <div id="Fuente">
                 <label class="Texto1Form fabricante" for="fabricante">Fabricante</label><br>
                 <input class="Boton1Form fabricante" type="text" id="fabricante" name="fabricante"><br>
-
-                <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
-                <input class="Boton1Form descripcion" type="text" id="Descripcion" name="Descripcion"><br>
             </div>
             <div id="Placa">
                 <label class="Texto1Form fabricante" for="fabricante">Fabricante</label><br>
@@ -138,10 +125,14 @@
                 <label class="Texto1Form TecnologiaRAM" for="TecnologiaRAM">Tecnologia RAM</label><br>
                 <input class="Boton1Form TecnologiaRAM" type="text" id="TecnologiaRAM" name="TecnologiaRAM"><br>
 
-                <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
-                <input class="Boton1Form descripcion" type="text" id="Descripcion" name="Descripcion"><br>
+               
             </div>
+
         </div>
+        <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
+        <button class="btn btn-secondary" type="button" id="agregarCampo">Agregar Descripción</button>
+        <div id="campo-dinamico"></div>
+        <input type="hidden" id="campos-dinamicos-hidden" name="Descripcion" value="" >
 
         <button class="btn btn-secondary" type="submit" id="crearProductoBtn">Crear Producto</button>
     </form>
@@ -186,75 +177,132 @@
                 setFieldsRequired(camposTipoSeleccionado, true);
             }
         });
-    });
 
-    document.getElementById('crearProductoForm').addEventListener('submit', function (e) {
-        e.preventDefault();
+        document.getElementById('agregarCampo').addEventListener('click', function () {
+            var newInput = document.createElement('input');
+            newInput.classList.add('Boton1Form');
+            newInput.type = 'text';
+            newInput.name = 'nuevoCampo[]'; // Cambia el nombre según tus necesidades
 
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: 'Se creará un nuevo producto',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, crear producto',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var fileInput = document.getElementById('imagen');
-                var file = fileInput.files[0];
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Eliminar';
+            deleteButton.type = 'button';
+            deleteButton.classList.add('btn', 'btn-danger');
+            deleteButton.addEventListener('click', function () {
+                parentDiv.removeChild(newInput);
+                parentDiv.removeChild(deleteButton);
+                updateHiddenField();
+            });
 
-                var reader = new FileReader();
-                reader.onload = function (event) {
-                    var base64Image = event.target.result;
+            var parentDiv = document.getElementById('campo-dinamico');
+            parentDiv.appendChild(newInput);
+            parentDiv.appendChild(deleteButton);
+        });
 
-                    var hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = 'imagenBase64';
-                    hiddenInput.value = base64Image;
-                    document.getElementById('crearProductoForm').appendChild(hiddenInput);
+        var crearProductoForm = document.getElementById('crearProductoForm');
 
-                    document.getElementById('crearProductoForm').submit();
-                };
+        crearProductoForm.addEventListener('submit', function (event) {
+            var inputs = crearProductoForm.querySelectorAll('input[required]');
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value.trim() === '') {
+                    event.preventDefault();
+                    alert('Por favor, completa todos los campos requeridos.');
+                    return;
+                }
+            }
 
-                reader.readAsDataURL(file);
+            updateHiddenField();
+            confirmSubmit();
+        });
+
+        function collectSpecificFieldsValues(selectedValue) {
+            var specificFields = document.getElementById(selectedValue).querySelectorAll('input, select');
+            var fieldValues = {};
+
+            specificFields.forEach(function (field) {
+                fieldValues[field.name] = field.value;
+            });
+
+            return fieldValues;
+        }
+
+        function confirmSubmit() {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Se creará un nuevo producto',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, crear producto',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var selectedValue = tipoSelect.value;
+                    var specificFieldValues = collectSpecificFieldsValues(selectedValue);
+
+                    // Agregar los valores específicos al formulario antes de enviarlo
+                    for (var field in specificFieldValues) {
+                        var input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = field;
+                        input.value = specificFieldValues[field];
+                        crearProductoForm.appendChild(input);
+                    }
+
+                    crearProductoForm.submit();
+                }
+            });
+        }
+
+        document.getElementById('precio').addEventListener('input', function () {
+            var precioError = document.getElementById('precio-error');
+            if (this.validity.valid) {
+                precioError.style.display = 'none';
+            } else {
+                precioError.style.display = 'block';
             }
         });
-    });
 
-    document.getElementById('precio').addEventListener('input', function () {
-        var precioError = document.getElementById('precio-error');
-        if (this.validity.valid) {
-            precioError.style.display = 'none';
-        } else {
-            precioError.style.display = 'block';
+        document.getElementById('existencia').addEventListener('input', function () {
+            var existenciaError = document.getElementById('existencia-error');
+            if (this.validity.valid) {
+                existenciaError.style.display = 'none';
+            } else {
+                existenciaError.style.display = 'block';
+            }
+        });
+
+        document.getElementById('imagen').addEventListener('change', function (e) {
+            var fileInput = e.target;
+            var previewImage = document.getElementById('imagen-preview');
+            var imagenBase64Field = document.getElementById('imagenBase64'); // Campo oculto para almacenar la imagen en Base64
+
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (event) {
+                    var base64Image = event.target.result;
+                    previewImage.src = base64Image;
+                    previewImage.style.display = 'block';
+
+                    // Asignar el valor Base64 al campo oculto
+                    imagenBase64Field.value = base64Image;
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                previewImage.src = '#';
+                previewImage.style.display = 'none';
+                imagenBase64Field.value = '';
+            }
+        });
+
+        function updateHiddenField() {
+            var inputs = document.querySelectorAll('#campo-dinamico input');
+            var values = Array.from(inputs).map(input => input.value);
+            document.getElementById('campos-dinamicos-hidden').value = values.join(',');
         }
     });
 
-    document.getElementById('existencia').addEventListener('input', function () {
-        var existenciaError = document.getElementById('existencia-error');
-        if (this.validity.valid) {
-            existenciaError.style.display = 'none';
-        } else {
-            existenciaError.style.display = 'block';
-        }
-    });
-
-    document.getElementById('imagen').addEventListener('change', function (e) {
-        var fileInput = e.target;
-        var previewImage = document.getElementById('imagen-preview');
-
-        if (fileInput.files && fileInput.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (event) {
-                previewImage.src = event.target.result;
-                previewImage.style.display = 'block';
-            };
-
-            reader.readAsDataURL(fileInput.files[0]);
-        } else {
-            previewImage.src = '#';
-            previewImage.style.display = 'none';
-        }
-    });
 </script>
+

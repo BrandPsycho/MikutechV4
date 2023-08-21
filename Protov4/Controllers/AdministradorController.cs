@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Protov4.DAO;
 using Protov4.DTO;
 using System.Security.Cryptography;
@@ -82,7 +83,17 @@ namespace Protov4.Controllers
         [HttpPost]
         public ActionResult NuevoProducto(string nombre, string imagenBase64, float precio, string Marca, int existencia, string tipo, string fabricante, string modelo, string velocidad, string Zócalo, string TamañoVRAM, string Interfaz, string TecnologiaRAM, string tamañomemoria, string Almacenamiento, List<string> Descripcion)
         {
-            db.InsertarProducto(nombre, imagenBase64,precio, Marca, existencia, tipo, fabricante, modelo, velocidad, Zócalo, TamañoVRAM, Interfaz, TecnologiaRAM, tamañomemoria, Almacenamiento, Descripcion);
+            List<string> descripcionList = new List<string>();
+
+            if (Descripcion[0]!=null)
+            {
+            foreach (string item in Descripcion)
+            {
+                string[] values = item.Split(',');
+                descripcionList.AddRange(values);
+            }
+            }
+            db.InsertarProducto(nombre, imagenBase64, precio, Marca, existencia, tipo, fabricante, modelo, velocidad, Zócalo, TamañoVRAM, Interfaz, TecnologiaRAM, tamañomemoria, Almacenamiento, descripcionList);
             var productos = ListarProductos("");
             return View("Productos", productos);
         }
@@ -99,9 +110,20 @@ namespace Protov4.Controllers
             var productos = ObjetoSeleccion(_id);
             return View(productos);
         }
-        public ActionResult EditarProductoDAO(string _id, string nombre, double precio, string tipo, string imagenBase64, string Marca, int existencia, string Fabricante, string Modelo, string Velocidad, string Zocalo, string TamañoVram, string Interfaz, string Tamañomemoria, string TecnologiaRam, string Almacenamiento, List<string> Descripcion)
+        public ActionResult EditarProductoDAO(string _id, string nombre, double precio, string tipo, string imagenBase64, string Marca, int existencia, string Fabricante, string Modelo, string Velocidad, string Zocalo, string TamañoVram, string Interfaz, string NuevasDescripcionesJson, string Tamañomemoria, string TecnologiaRam, string Almacenamiento, List<string> Descripcion)
         {
-            List<string> descripcionesSinDuplicados = Descripcion.Distinct().ToList();
+            List<string> nuevasDescripciones = JsonConvert.DeserializeObject<List<string>>(NuevasDescripcionesJson);
+            List<string> descripcionList = new List<string>();
+
+            if (nuevasDescripciones[0] != null)
+            {
+                foreach (string item in nuevasDescripciones)
+                {
+                    string[] values = item.Split(',');
+                    descripcionList.AddRange(values);
+                }
+            }
+            List<string> descripcionesSinDuplicados = descripcionList.Distinct().ToList();
 
             db.ActualizarProducto(_id, nombre, precio, tipo, imagenBase64, Marca, existencia, Fabricante, Modelo, Velocidad, Zocalo, TamañoVram, Interfaz, Tamañomemoria, TecnologiaRam, Almacenamiento, descripcionesSinDuplicados);
             var productos = ListarProductos("");
