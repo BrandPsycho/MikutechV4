@@ -15,7 +15,20 @@
     display: flex;
     flex-wrap: wrap;
 }
-
+.Precioselect {
+    width: 200px; /* Ajusta el ancho según tus necesidades */
+    height: 40px; /* Ajusta la altura según tus necesidades */
+    
+}
+.Inico {
+    margin-top: 80px; /* Ajusta esta cantidad según lo que necesites */
+    display: block;
+    
+}
+#Busqueda {
+    display: flex;
+    justify-content: space-between;
+}
 .product {
     flex: 30px;
     padding: 80px;
@@ -95,7 +108,7 @@
 }
 
 #contenedor_Productos {
-    margin-top: 5%;
+    margin-top: 1%;
 }
 
 .PrecioSeleccion {

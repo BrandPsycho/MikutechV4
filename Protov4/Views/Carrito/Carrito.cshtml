@@ -190,18 +190,23 @@
             }
             return null;
         }
-
+        function formatNumberWithComma(number) {
+            return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
         function actualizarSubtotalYTotal(divProducto, cantidad, index) {
-            var precio = parseFloat(divProducto.closest("tr").querySelector(".ColPrec").textContent.replace("$", ""));
+            var precioString = divProducto.closest("tr").querySelector(".ColPrec").textContent.replace("$", "").replace(",", ".");
+            var precio = parseFloat(precioString);
+
             var subtotal = cantidad * precio;
-            divProducto.closest("tr").querySelector(".ColSubT").textContent = "$ " + subtotal.toFixed(2);
+            divProducto.closest("tr").querySelector(".ColSubT").textContent = "$ " + formatNumberWithComma(subtotal);
 
             var total = 0;
             document.querySelectorAll(".ColSubT").forEach(function (subTotalElement) {
-                var subtotalValue = parseFloat(subTotalElement.textContent.replace("$", ""));
+                var subtotalValueString = subTotalElement.textContent.replace("$", "").replace(",", ".");
+                var subtotalValue = parseFloat(subtotalValueString);
                 total += subtotalValue;
             });
-            document.querySelector("#totalCompra").textContent = "$ " + total.toFixed(2);
+            document.querySelector("#totalCompra").textContent = "$ " + formatNumberWithComma(total);
             document.getElementById("pagototal").value = total;
         }
     });
