@@ -21,39 +21,17 @@ namespace Protov4.DAO
         {
             var filtro = Builders<ProductoDTO>.Filter.Eq("Tipo", tipo);
 
-            if (tipo == "Procesador")
+          
+                
+           
+            if(tipo==null)
             {
-                var query = prod.Find(filtro).ToListAsync();
-                return query.Result;
-            }
-            else if (tipo == "Gráfica")
-            {
-                var query = prod.Find(filtro).ToListAsync();
-                return query.Result;
-            }
-            else if (tipo == "Ram")
-            {
-                var query = prod.Find(filtro).ToListAsync();
-                return query.Result;
-            }
-            else if (tipo == "Placa")
-            {
-                var query = prod.Find(filtro).ToListAsync();
-                return query.Result;
-            }
-            else if (tipo == "Fuente")
-            {
-                var query = prod.Find(filtro).ToListAsync();
-                return query.Result;
-            }
-            else if (tipo == "Almacenamiento")
-            {
-                var query = prod.Find(filtro).ToListAsync();
+                var query = prod.Find(new BsonDocument()).ToListAsync();
                 return query.Result;
             }
             else
             {
-                var query = prod.Find(new BsonDocument()).ToListAsync();
+                var query = prod.Find(filtro).ToListAsync();
                 return query.Result;
             }
 
