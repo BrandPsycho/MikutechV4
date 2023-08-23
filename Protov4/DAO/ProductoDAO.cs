@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using Protov4.DTO;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace Protov4.DAO
 {
@@ -17,13 +18,21 @@ namespace Protov4.DAO
             prod = mongo.GetDatabase().GetCollection<ProductoDTO>("Productos");
         }
         // Obtiene una lista de productos según el tipo especificado
-        public List<ProductoDTO> ObtenerProductos(string tipo)
+        public List<ProductoDTO> ObtenerProductos(string tipo,string busqueda)
         {
-            var filtro = Builders<ProductoDTO>.Filter.Eq("Tipo", tipo);
+            var filtro = Builders<ProductoDTO>.Filter.Eq(busqueda, tipo);
 
-          
-                
-           
+            if (busqueda=="Nombre_Producto" && tipo!=null)
+            {
+                var regexPattern = new BsonRegularExpression(new Regex(tipo, RegexOptions.IgnoreCase));
+
+                var filterBuilder = Builders<ProductoDTO>.Filter;
+                var filter = filterBuilder.Regex(busqueda, regexPattern);
+
+                var query = prod.Find(filter).ToListAsync();
+                return query.Result;
+            }
+            else { 
             if(tipo==null)
             {
                 var query = prod.Find(new BsonDocument()).ToListAsync();
@@ -34,9 +43,9 @@ namespace Protov4.DAO
                 var query = prod.Find(filtro).ToListAsync();
                 return query.Result;
             }
-
-
+            }
         }
+
 
 
         // Obtiene detalles de un producto según su ID en formato string

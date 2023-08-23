@@ -31,9 +31,9 @@ namespace Protov4.DAO
             carritoDAO.EliminarProductoCarrito(id, idproducto);
         }
         // Obtiene una lista de todos los productos
-        public override List<ProductoDTO> GetAllProductos(string tipo)
+        public override List<ProductoDTO> GetAllProductos(string tipo, string busqueda)
         {
-            return productoDAO.ObtenerProductos(tipo);
+            return productoDAO.ObtenerProductos(tipo,busqueda);
         }
         // Obtiene detalles de un producto específico
         public override List<ProductoDTO> GetSeleccion(string id)

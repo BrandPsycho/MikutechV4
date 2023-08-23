@@ -18,14 +18,14 @@ namespace Protov4.Controllers
         }
         public IActionResult Administrador()
         {
-            var productos = ListarProductos("");
+            var productos = ListarProductos(null);
             return View("Productos", productos);
         }
         [HttpGet]
         public List<ProductoDTO> ListarProductos(string tipo)
         {
             List<ProductoDTO> productos;
-            productos = db.GetAllProductos(tipo);
+            productos = db.GetAllProductos(tipo,"Tipo");
             var ProductoDTO = productos.Select(p => new ProductoDTO
             {
                 Id = p.Id,

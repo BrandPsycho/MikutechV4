@@ -24,12 +24,19 @@ namespace Protov4.Controllers
 
         // GET: ProductoController/Producto
         // Muestra una lista de productos filtrados por tipo
-        public ActionResult Producto(string tipo)
+        public ActionResult Producto(string tipo,string busqueda)
         {
-            var productos = ListarProductos(tipo);
+            var productos = ListarProductos(tipo,busqueda);
+            if (busqueda== "Nombre_Producto" || busqueda=="Marca")
+            {
+                ViewData["tipo"] = "Resultados de: "+tipo;
+            }
+            else { 
             ViewData["tipo"] = tipo;
+            }
             return View(productos);
         }
+     
         // GET: ProductoController/ProductoSeleccion
         // Muestra los detalles de un producto específico seleccionado por ID
         public ActionResult ProductoSeleccion(string _id)
@@ -72,10 +79,14 @@ namespace Protov4.Controllers
         }
         // Método auxiliar HTTP GET: Obtiene una lista de productos filtrados por tipo
         [HttpGet]
-        public List<ProductoDTO> ListarProductos(string tipo)
+        public List<ProductoDTO> ListarProductos(string tipo,string Busqueda)
         {
+            if (Busqueda==null)
+            {
+                Busqueda = "Tipo";
+            }
             List<ProductoDTO> productos;
-            productos = db.GetAllProductos(tipo);
+            productos = db.GetAllProductos(tipo,Busqueda);
             var ProductoDTO = productos.Select(p => new ProductoDTO
             {
                 Id = p.Id,

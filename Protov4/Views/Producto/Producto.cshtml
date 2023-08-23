@@ -19,29 +19,36 @@
                 }
                 <div id="Busqueda" class="pb-3">
                     <div id="selectdiv">
-                        <select class="form-select Precioselect" aria-label="Default select example">
-                            <option  value="0" selected>Filtrar por Precio</option>
+                        <select class="form-select Precioselect"  aria-label="Default select example">
+                            <option value="0" selected>Filtrar por Precio</option>
                             <option value="1">Mayor a Menor</option>
                             <option value="2">Menor a Mayor</option>
                         </select>
                     </div>
                     <div class="cuadrotexto">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Buscar">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="bi bi-search"></i></button>
-                        </div>
+                        <form action="@Url.Action("Producto","Producto")" method="post">
+                            <div class="input-group mb-3">
+                                <input hidden value="Nombre_Producto" name="busqueda">
+                                <input type="text" class="form-control" name="tipo" placeholder="Buscar">
+                                <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+
+                            </div>
+                        </form>
                     </div>
                     <div class="Marca">
-                        <select class="form-select Precioselect" aria-label="Default select example">
-                            <option selected>Filtrar por Marca</option>
+                        <select class="form-select Marcaselect" aria-label="Default select example" onchange="redirectToFilteredProducts(this)">
+
                             @{
+                                <option>Filtrar por Marca</option>
                                 var marcasDistintas = Model.Select(prod => prod.Marca).Distinct();
 
                                 foreach (var marca in marcasDistintas)
                                 {
                                     <option value="@marca">@marca</option>
                                 }
+                                <option value="0">Sin Filtro</option>
                             }
+                            
                         </select>
                     </div>
                 </div>
@@ -102,8 +109,9 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
+    
     document.addEventListener("DOMContentLoaded", function () {
-        
+
         var carritoForm = document.querySelectorAll(".carritoForm");
         carritoForm.forEach(function (form) {
             form.addEventListener("submit", function (e) {
@@ -165,8 +173,9 @@
                     });
             });
         });
-        
+
         var selectPrecio = document.querySelector(".Precioselect");
+        var selectMarca = document.querySelector(".Marcaselect");
         var contenedorProductos = document.querySelector("#contenedor_Productos");
         var productos = Array.from(contenedorProductos.querySelectorAll("#seccard"));
 
@@ -179,6 +188,18 @@
             } else {
                 ordenarProductos(selectPrecio.value);
             }
+        });
+        selectMarca.addEventListener("change", function () {
+            var baseUrl = "@Url.Action("Producto", "Producto")";
+            var queryString = "";
+
+            if (selectMarca.value === "0") {
+                queryString = "";
+            } else {
+                queryString = "?tipo=" + selectMarca.value + "&busqueda=Marca";
+            }
+            var url = baseUrl + queryString;
+            window.location.href = url;
         });
 
         function ordenarProductos(opcionSeleccionada) {

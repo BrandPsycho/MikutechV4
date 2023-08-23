@@ -10,7 +10,7 @@ namespace Protov4.DAO
         public abstract void ActualizarProducto(string _id, string nombre, double precio, string tipo, string imagenBase64, string Marca, int existencia, string Fabricante, string Modelo, string Velocidad, string Zocalo, string TamañoVram, string Interfaz, string Tamañomemoria, string TecnologiaRam, string Almacenamiento, List<string> Descripcion);
 
         // Obtiene una lista de todos los productos basados en un tipo
-        public abstract List<ProductoDTO> GetAllProductos(string tipo);
+        public abstract List<ProductoDTO> GetAllProductos(string tipo,string busqueda);
         // Obtiene una lista de todos los productos basados en un tipo
         
         public abstract List<AuditoriaDTO> ObtenerAuditoria();
