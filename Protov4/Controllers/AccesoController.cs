@@ -135,8 +135,8 @@ namespace Protov4.Controllers
                 ModelState.AddModelError("confirmar_contrasena", "Las contraseñas no coinciden");
                 return View(nclient);
             }
-
-            bool registrado = _usuariosDAO.Registrar(nclient); // Intenta registrar al nuevo cliente
+            string mensaje;
+            bool registrado = _usuariosDAO.Registrar(nclient, out mensaje); // Intenta registrar al nuevo cliente
 
             if (registrado)
             {
@@ -144,7 +144,7 @@ namespace Protov4.Controllers
             }
             else
             {
-                ViewBag.Error = "Credenciales incorrectas"; // Muestra un mensaje de error si el registro falla
+                ViewBag.Error = mensaje; ; // Muestra un mensaje de error si el registro falla
             }
 
             return View();

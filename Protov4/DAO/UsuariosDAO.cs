@@ -76,9 +76,10 @@ namespace Protov4.DAO
         }
 
         // Método para registrar un nuevo cliente
-        public bool Registrar(ClientesDTO nclient)
+        public bool Registrar(ClientesDTO nclient, out string mensaje)
         {
             bool registrado = false;
+            mensaje = "";
             try
             {
                 // Convertir la contraseña a su hash SHA256 correspondiente
@@ -99,6 +100,7 @@ namespace Protov4.DAO
                         cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery(); // Ejecutar el procedimiento almacenado
                         registrado = Convert.ToBoolean(cmd.Parameters["Registrado"].Value); // Obtener el resultado del proceso de registro
+                        mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                     }
                 }
             }
@@ -106,7 +108,6 @@ namespace Protov4.DAO
             {
                 // Puedes manejar el error aquí si es necesario.
             }
-
             return registrado;
         }
 
