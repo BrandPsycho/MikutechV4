@@ -8,39 +8,137 @@
 </div>
 <div>
     <button class="btn btn-secondary" id="crearProductoBtn">Crear Nuevo</button>
-</div>
-<div class="card-container">
-    @foreach (var producto in Model)
-    {
-        var imagenBytes = producto.Imagen;
-        var base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
+    <div id="Busqueda" class="pb-3">
 
-        <div class="card">
-            <img src="@base64" alt="@producto.Nombre_Producto" class="card-img-top">
-            <div class="card-body">
-                <h5 class="card-title">@producto.Nombre_Producto</h5>
-                <p class="card-text">Precio: $@producto.Precio</p>
-                <p class="card-text">Marca: @producto.Marca</p>
-                <p class="card-text">Existencias: @producto.Existencia</p>
-                <p class="card-text">Tipo: @producto.Tipo</p>
-                <div class="card-buttons">
-                    <form action="@Url.Action("EditarProducto", "Administrador", new { _id = producto.Id })" method="post">
-                        <button type="submit" class="btn btn-primary shadow-sm editBtn"><i class="bi bi-pencil-square"></i> Editar</button>
-                    </form>
-                    <form class="deleteForm" id="deleteForm-@producto.Id" action="@Url.Action("EliminarProducto", "Administrador")" method="post">
-                        <input type="hidden" name="id" value="@producto.Id" />
-                        <button type="submit" class="btn btn-danger shadow-sm deleteBtn"><i class="bi bi-trash3"></i> Eliminar</button>
-                    </form>
-                </div>
-            </div>
+        <div id="selectdiv">
+            <select class="form-select Precioselect" aria-label="Default select example">
+                <option value="0" selected>Filtrar por Precio</option>
+                <option value="1">Mayor a Menor</option>
+                <option value="2">Menor a Mayor</option>
+            </select>
         </div>
+        <div id="selectexist">
+            <select class="form-select existselect" aria-label="Default select example">
+                <option value="3" selected>Filtrar por Existencias</option>
+                <option value="4">Mayor a Menor</option>
+                <option value="5">Menor a Mayor</option>
+            </select>
+        </div>
+        <div class="cuadrotexto">
+            <form action="@Url.Action("Administrador","Administrador")" method="post">
+                <div class="input-group mb-3">
+                    <input hidden value="Nombre_Producto" name="busqueda">
+                    <input type="text" class="form-control" name="tipo" placeholder="Buscar">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+
+                </div>
+            </form>
+        </div>
+        <div class="Marca">
+            <select class="form-select Marcaselect" aria-label="Default select example" onchange="redirectToFilteredProducts(this)">
+
+                @{
+                    <option>Filtrar por Marca</option>
+                    var marcasDistintas = Model.Select(prod => prod.Marca).Distinct();
+
+                    foreach (var marca in marcasDistintas)
+                    {
+                        <option value="@marca">@marca</option>
+                    }
+                    <option value="0">Sin Filtro</option>
+                }
+
+            </select>
+        </div>
+
+    </div>
+</div>
+<div id="contenedor_Productos" class="card-container">
+    @{
+        var productsPerPage = 9;
+        var pageCount = (int)Math.Ceiling(Model.Count / (double)productsPerPage);
+
+       
+            @foreach (var producto in Model)
+            {
+                var imagenBytes = producto.Imagen;
+                var base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
+                <section class="seccard">
+                    <div class="card">
+                        <img src="@base64" alt="@producto.Nombre_Producto" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">@producto.Nombre_Producto</h5>
+                            <p id="Precio" class="card-text">Precio: $@producto.Precio</p>
+                            <p class="card-text">Marca: @producto.Marca</p>
+                            <p id="Exist" class="card-text">Existencias: @producto.Existencia</p>
+                            <p class="card-text">Tipo: @producto.Tipo</p>
+                            <div class="card-buttons">
+                                <form action="@Url.Action("EditarProducto", "Administrador", new { _id = producto.Id })" method="post">
+                                    <button type="submit" class="btn btn-primary shadow-sm editBtn"><i class="bi bi-pencil-square"></i> Editar</button>
+                                </form>
+                                <form class="deleteForm" id="deleteForm-@producto.Id" action="@Url.Action("EliminarProducto", "Administrador")" method="post">
+                                    <input type="hidden" name="id" value="@producto.Id" />
+                                    <button type="submit" class="btn btn-danger shadow-sm deleteBtn"><i class="bi bi-trash3"></i> Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            }
+        
     }
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const deleteForms = document.querySelectorAll(".deleteForm");
+        const productPages = document.querySelectorAll(".product-page");
+        const paginationButtons = createPaginationButtons(productPages.length);
+
+        productPages.forEach(function (page, index) {
+            if (index !== 0) {
+                page.style.display = "none";
+            }
+        });
+
+        paginationButtons.forEach(function (button, index) {
+            button.addEventListener("click", function () {
+                showPage(index);
+            });
+        });
+
+        const paginationContainer = document.createElement("div");
+        paginationContainer.classList.add("pagination-container");
+        paginationButtons.forEach(function (button) {
+            paginationContainer.appendChild(button);
+        });
+
+        document.getElementById("contenedor_Productos").appendChild(paginationContainer);
+
+        function createPaginationButtons(pageCount) {
+            const buttons = [];
+
+            for (let i = 0; i < pageCount; i++) {
+                const button = document.createElement("button");
+                button.textContent = i + 1;
+                buttons.push(button);
+            }
+
+            return buttons;
+        }
+
+        function showPage(pageIndex) {
+            productPages.forEach(function (page, index) {
+                if (index === pageIndex) {
+                    page.style.display = "block";
+                } else {
+                    page.style.display = "none";
+                }
+            });
+        }
 
         deleteForms.forEach(function (deleteForm) {
             deleteForm.addEventListener("submit", function (event) {
@@ -83,5 +181,85 @@
                 }
             });
         });
+
+        var selectPrecio = document.querySelector(".Precioselect");
+        var selectExist = document.querySelector(".existselect");
+
+        var selectMarca = document.querySelector(".Marcaselect");
+        var contenedorProductos = document.querySelector("#contenedor_Productos");
+        var productos = Array.from(contenedorProductos.querySelectorAll(".seccard"));
+
+
+
+        selectPrecio.addEventListener("change", function () {
+            if (selectPrecio.value === "0") {
+                // Restaurar el orden original
+                location.reload();
+            } else {
+                ordenarProductos(selectPrecio.value);
+            }
+        });
+        selectExist.addEventListener("change", function () {
+            if (selectExist.value === "3") {
+                // Restaurar el orden original
+                location.reload();
+            } else {
+                ordenarProductos(selectExist.value);
+            }
+        });
+        selectMarca.addEventListener("change", function () {
+            var baseUrl = "@Url.Action("Administrador", "Administrador")";
+            var queryString = "";
+
+            if (selectMarca.value === "0") {
+                queryString = "";
+            } else {
+                queryString = "?tipo=" + selectMarca.value + "&busqueda=Marca";
+            }
+            var url = baseUrl + queryString;
+            window.location.href = url;
+        });
+
+        function ordenarProductos(opcionSeleccionada) {
+            if (opcionSeleccionada === "1") {
+                productos.sort(function (a, b) {
+                    var precioA = parseFloat(a.querySelector("#Precio").innerText.replace("Precio: $", ""));
+                    var precioB = parseFloat(b.querySelector("#Precio").innerText.replace("Precio: $", ""));
+
+                    return precioB - precioA;
+                });
+            } else if (opcionSeleccionada === "2") {
+                productos.sort(function (a, b) {
+                    var precioA = parseFloat(a.querySelector("#Precio").innerText.replace("Precio: $", ""));
+                    var precioB = parseFloat(b.querySelector("#Precio").innerText.replace("Precio: $", ""));
+
+                    return precioA - precioB;
+                });
+            } else if (opcionSeleccionada === "4") {
+                productos.sort(function (a, b) {
+                    var precioA = parseFloat(a.querySelector("#Exist").innerText.replace("Existencias: ", ""));
+                    var precioB = parseFloat(b.querySelector("#Exist").innerText.replace("Existencias: ", ""));
+
+                    return precioB - precioA;
+                });
+            } else if (opcionSeleccionada === "5") {
+                productos.sort(function (a, b) {
+                    var precioA = parseFloat(a.querySelector("#Exist").innerText.replace("Existencias: ", ""));
+                    var precioB = parseFloat(b.querySelector("#Exist").innerText.replace("Existencias: ", ""));
+
+                    return precioA - precioB;
+                });
+            }
+
+            // Vaciar el contenedor
+            while (contenedorProductos.firstChild) {
+                contenedorProductos.removeChild(contenedorProductos.firstChild);
+            }
+
+            // Agregar los productos ordenados al contenedor
+            productos.forEach(function (producto) {
+                contenedorProductos.appendChild(producto);
+            });
+        }
     });
 </script>

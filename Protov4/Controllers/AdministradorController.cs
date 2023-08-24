@@ -16,16 +16,20 @@ namespace Protov4.Controllers
             db = new MikutechDAO(configuration);
 
         }
-        public IActionResult Administrador()
+        public IActionResult Administrador(string tipo, string busqueda)
         {
-            var productos = ListarProductos(null);
+            var productos = ListarProductos(tipo,busqueda);
             return View("Productos", productos);
         }
         [HttpGet]
-        public List<ProductoDTO> ListarProductos(string tipo)
+        public List<ProductoDTO> ListarProductos(string tipo,string busqueda)
         {
+            if (busqueda == null)
+            {
+                busqueda = "Tipo";
+            }
             List<ProductoDTO> productos;
-            productos = db.GetAllProductos(tipo,"Tipo");
+            productos = db.GetAllProductos(tipo,busqueda);
             var ProductoDTO = productos.Select(p => new ProductoDTO
             {
                 Id = p.Id,
@@ -94,14 +98,14 @@ namespace Protov4.Controllers
             }
             }
             db.InsertarProducto(nombre, imagenBase64, precio, Marca, existencia, tipo, fabricante, modelo, velocidad, Zócalo, TamañoVRAM, Interfaz, TecnologiaRAM, tamañomemoria, Almacenamiento, descripcionList);
-            var productos = ListarProductos("");
+            var productos = ListarProductos(null,null);
             return View("Productos", productos);
         }
         [HttpPost]
         public ActionResult eliminarProducto(string id)
         {
             db.eliminarProducto(id);
-            var productos = ListarProductos("");
+            var productos = ListarProductos(null,null);
             return View("Productos", productos);
         }
       
@@ -126,7 +130,7 @@ namespace Protov4.Controllers
             List<string> descripcionesSinDuplicados = descripcionList.Distinct().ToList();
 
             db.ActualizarProducto(_id, nombre, precio, tipo, imagenBase64, Marca, existencia, Fabricante, Modelo, Velocidad, Zocalo, TamañoVram, Interfaz, Tamañomemoria, TecnologiaRam, Almacenamiento, descripcionesSinDuplicados);
-            var productos = ListarProductos("");
+            var productos = ListarProductos(null,null);
             return View("Productos", productos);
         }
         [HttpGet]
