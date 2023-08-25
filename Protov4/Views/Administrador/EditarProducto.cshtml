@@ -3,14 +3,15 @@
     Layout = "~/Views/Administrador/_LayoutAdmin.cshtml";
 }
 @model List<ProductoDTO>
+<h1>Editar Producto</h1>
 
-<div>
+<div class="flex-container">
     @foreach (var prod in Model)
     {
 
         var imagenBytes = prod.Imagen;
         var base64 = "data:image/png;base64," + Convert.ToBase64String(imagenBytes);
-        <h1>Nuevo Producto</h1>
+        
         <form id="crearProductoForm" method="post" enctype="multipart/form-data" action="@Url.Action("EditarProductoDAO", "Administrador")">
             <input hidden value="@prod.Id" id="_id" name="_id">
             <label class="Texto1Form" for="nombre">Nombre Producto</label><br>
@@ -23,7 +24,7 @@
 
             <label class="Texto1Form" for="precio">Precio</label><br>
             <div class="input-container">
-                <input class="Boton1Form" type="number" id="precio" name="precio" required value="@prod.Precio" min="0" step="1" inputmode="numeric">
+                <input class="Boton1Form" type="number" id="precio" name="precio" required value="@prod.Precio" min="1" step="1" inputmode="numeric">
                 <span class="error-message" id="precio-error">Ingrese un valor válido</span>
             </div><br>
 
@@ -95,16 +96,16 @@
                                 <input class="Boton1Form descripcion" type="text" name="Descripcion[@i]" value="@prod.Especificaciones.Descripción[i]">
                             </td>
                             <td>
-                                <button type="button" class="btn btn-link remove-row">Eliminar</button>
+                                <button type="button" class="btn btn-danger remove-row">Eliminar</button>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
-            <button type="button" class="btn btn-link add-row">Agregar Descripción</button>
+            <button type="button" class="btn btn-secondary add-row">Agregar Descripción</button>
             <input type="hidden" name="NuevasDescripcionesJson" id="nuevasDescripcionesJson" />
 
-            <button class="btn btn-secondary" type="submit" id="crearProductoBtn"><i class="bi bi-save2-fill"></i>Guardar</button>
+            <button class="btn btn-primary" type="submit"><i class="bi bi-save2-fill"></i>Guardar</button>
         </form>
     }
 </div>
@@ -181,15 +182,35 @@
         var crearProductoForm = document.getElementById('crearProductoForm');
 
         crearProductoForm.addEventListener('submit', function () {
-            var descripcionInputs = document.querySelectorAll('.Boton1Form.descripcion');
-            var nuevasDescripciones = [];
+            event.preventDefault(); // Prevent the default form submission
 
-            descripcionInputs.forEach(function (input) {
-                nuevasDescripciones.push(input.value);
+            // Show a SweetAlert confirmation
+            Swal.fire({
+                title: 'Confirmar edición',
+                text: '¿Estás seguro de que quieres editar este producto?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, editar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, proceed with form submission
+                    var descripcionInputs = document.querySelectorAll('.Boton1Form.descripcion');
+                    var nuevasDescripciones = [];
+
+                    descripcionInputs.forEach(function (input) {
+                        nuevasDescripciones.push(input.value);
+                    });
+
+                    var nuevasDescripcionesJsonInput = document.getElementById('nuevasDescripcionesJson');
+                    nuevasDescripcionesJsonInput.value = JSON.stringify(nuevasDescripciones);
+                    var precioInput = document.getElementById('precio');
+                    var precioValor = parseFloat(precioInput.value);
+
+                    // Now you can submit the form
+                    crearProductoForm.submit();
+                }
             });
-
-            var nuevasDescripcionesJsonInput = document.getElementById('nuevasDescripcionesJson');
-            nuevasDescripcionesJsonInput.value = JSON.stringify(nuevasDescripciones);
         });
         hideAllSpecificFields();
 

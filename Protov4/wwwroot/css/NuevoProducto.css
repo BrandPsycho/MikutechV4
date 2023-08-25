@@ -1,26 +1,34 @@
 ﻿
+.column-izq {
+    flex: 1;
+    width: 100px;
+}
+
+.column-der {
+    flex: 1;
+    margin-right: -280px;
+    padding-left:60px;
+    width: 100px;
+}
 #tipo-specific {
     display: flex;
     flex-direction: column;
 }
-
-/* Ejemplo de ajuste de margen inferior en campos específicos */
-.input-container {
-    margin-bottom: 0; /* Ajustar o eliminar margen inferior */
+#campo-dinamico {
+    flex: 1;
 }
+
 
 /* Ajustar elementos flex */
 .flex-container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Opcional: Alinear elementos a la izquierda */
+
 }
 
-/* Eliminar margen inferior entre elementos flex */
-.flex-item {
-    margin-bottom: 0;
+.newlbl{
+    padding-top:8px;
+    margin-left:255px;
 }
-
 
 /* Ajustar contenedores al contenido */
 #crearProductoForm {
@@ -30,7 +38,10 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f7f7f7;
+    background-color: #fafafa15;
+    -webkit-backdrop-filter: blur(0.4rem);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     /* Ajustar alto automáticamente */
@@ -69,9 +80,6 @@
     }
 
 
-.espe{
-    transform:translateY(70%);
-}
 /* Estilos para los campos */
 .Boton1Form,
 .ComboForm {
@@ -122,6 +130,7 @@
     margin: 10px 0;
 }
 
+
 /* Estilos para la vista previa de la imagen */
 /* Puedes ajustar estos estilos según tus preferencias */
 #imagen-preview {
@@ -138,3 +147,13 @@
     border-top: 1px solid #ccc;
     padding-top: 20px;
 }
+
+.btnnew {
+    margin-right:-380px;
+    transition: transform 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
+}
+    .btnnew:hover {
+
+        transform: scale(1.02);
+    }
+

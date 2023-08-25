@@ -1,47 +1,59 @@
 ﻿@{
     Layout = "~/Views/Administrador/_LayoutAdmin.cshtml";
 }
-
-<div>
-    <h1>Nuevo Producto</h1>
+<h1 class="newlbl">Nuevo Producto</h1>
+<div class="m-2">
+    
     <form id="crearProductoForm" method="post" action="@Url.Action("NuevoProducto", "Administrador")">
-        <label class="Texto1Form" for="nombre">Nombre Producto</label><br>
-        <input class="Boton1Form" type="text" id="nombre" name="nombre" required><br />
-        <label class="Texto1Form" for="imagen">Imagen</label><br>
-        <input class="Boton1Form" type="file" id="imagen" accept="image/*" required><br>
-        <img id="imagen-preview" src="#" alt="Vista Previa de la Imagen" style="max-width: 200px; display: none;"><br>
-        <input hidden id="imagenBase64" name="imagenBase64" />
+       
+        <div class="flex-container ">
+            
+            <div class="column-izq">
 
-        <label class="Texto1Form" for="precio">Precio</label><br>
-        <div class="input-container">
-            <input class="Boton1Form" type="number" id="precio" name="precio" required min="0" step="1" inputmode="numeric">
-            <span class="error-message" id="precio-error">Ingrese un valor válido</span>
-        </div><br>
+                <label class="Texto1Form" for="nombre">Nombre Producto</label><br>
+                <input class="Boton1Form" type="text" id="nombre" name="nombre" required><br />
+                <label class="Texto1Form" for="precio">Precio</label>
+                <div class="input-container">
+                    <input class="Boton1Form" type="number" id="precio" name="precio" required min="1" step="1" inputmode="numeric">
+                    <span class="error-message" id="precio-error">Ingrese un valor válido</span>
+                </div>
 
-        <label class="Texto1Form" for="existencia">Existencias</label><br>
-        <div class="input-container">
-            <input class="Boton1Form" type="number" id="existencia" name="existencia" required min="0" step="1" inputmode="numeric">
-            <span class="error-message" id="existencia-error">Ingrese un valor válido</span>
-        </div><br>
+                <label class="Texto1Form" for="Tipo">Tipo</label><br>
+                <select class="ComboForm" id="Tipo" name="Tipo">
+                    <option value="Procesador" selected>Procesador</option>
+                    <option value="Gráfica">Gráfica</option>
+                    <option value="Almacenamiento">Almacenamiento</option>
+                    <option value="Ram">Ram</option>
+                    <option value="Fuente">Fuente</option>
+                    <option value="Placa">Placa</option>
+                </select><br />
+            </div>
+            <div class="column-der">
 
 
 
-        <label class="Texto1Form" for="marca">Marca</label><br>
-        <input class="Boton1Form" type="text" id="marca" name="marca" required><br>
+
+                <label class="Texto1Form" for="existencia">Existencias</label><br>
+                <div class="input-container">
+                    <input class="Boton1Form" type="number" id="existencia" name="existencia" required min="0" step="1" inputmode="numeric">
+                    <span class="error-message" id="existencia-error">Ingrese un valor válido</span>
+                </div>
 
 
-        <label class="Texto1Form" for="Tipo">Tipo</label><br>
-        <select class="ComboForm" id="Tipo" name="Tipo">
-            <option value="Procesador" selected>Procesador</option>
-            <option value="Gráfica">Gráfica</option>
-            <option value="Almacenamiento">Almacenamiento</option>
-            <option value="Ram">Ram</option>
-            <option value="Fuente">Fuente</option>
-            <option value="Placa">Placa</option>
-        </select><br />
-        <h4 class="espe">Especificaciones</h4>
+              
+                <label class="Texto1Form" for="marca">Marca</label><br>
+                <input class="Boton1Form" type="text" id="marca" name="marca" required><br>
+                <img id="imagen-preview" src="#" alt="Vista Previa de la Imagen" style="max-width: 200px; display: none;">
+                <label class="Texto1Form" for="imagen">Imagen</label><br>
+                <input class="Boton1Form" type="file" id="imagen" accept="image/*" required><br>
+
+                <input hidden id="imagenBase64" name="imagenBase64" />
+            </div>
+        </div>
+
         <!-- Campos específicos para cada tipo -->
         <div id="tipo-specific" class="hidden">
+            <h4 class="espe">Especificaciones</h4>
             <!-- Campos específicos para todos los tipos de productos -->
             <div class="input-container">
                 <label class="Texto1Form" id="lblvelocidad" for="velocidad">Velocidad</label>
@@ -49,10 +61,10 @@
             </div>
             <div class="input-container">
                 <label class="Texto1Form" id="lblfabricante" for="fabricante">Fabricante</label>
-                <input class="Boton1Form" type="text" id="fabricante" name="Fabricante" >
+                <input class="Boton1Form" type="text" id="fabricante" name="Fabricante">
             </div>
             <label class="Texto1Form" id="lblmodelo" for="modelo">Modelo</label>
-            <input class="Boton1Form" type="text" id="modelo" name="Modelo" >
+            <input class="Boton1Form" type="text" id="modelo" name="Modelo">
             <div class="input-container">
                 <label class="Texto1Form" id="lblzocalo" for="zocalo">Zócalo</label>
                 <input class="Boton1Form" type="text" id="zocalo" name="Zocalo">
@@ -61,29 +73,33 @@
             <input class="Boton1Form" type="text" id="tamanioVram" name="TamanioVram">
             <div class="input-container">
                 <label class="Texto1Form" id="lblinterfaz" for="interfaz">Interfaz</label>
-                <input class="Boton1Form" type="text" id="interfaz" name="Interfaz" >
+                <input class="Boton1Form" type="text" id="interfaz" name="Interfaz">
             </div>
             <label class="Texto1Form" id="lblalmacenamiento">Almacenamiento</label>
-            <input class="Boton1Form" type="text" id="almacenamiento" name="Almacenamiento" >
+            <input class="Boton1Form" type="text" id="almacenamiento" name="Almacenamiento">
             <div class="input-container">
                 <label class="Texto1Form" id="lbltecnologiaRam" for="tecnologiaRam">Tecnología RAM</label>
-                <input class="Boton1Form" type="text" id="tecnologiaRam" name="TecnologiaRam" >
+                <input class="Boton1Form" type="text" id="tecnologiaRam" name="TecnologiaRam">
             </div>
             <div class="input-container">
                 <label class="Texto1Form" id="lbltamañomemoria">Tamaño Memoria</label>
-                <input class="Boton1Form" type="text" id="tamanioMemoria" name="TamanioMemoria" ><br>
+                <input class="Boton1Form" type="text" id="tamanioMemoria" name="TamanioMemoria"><br>
             </div>
 
         </div>
 
         
-        <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
-        <button class="btn btn-secondary" type="button" id="agregarCampo">Agregar Descripción</button>
-        <div id="campo-dinamico"></div>
-        <input type="hidden" id="campos-dinamicos-hidden" name="Descripcion" value="">
+            <label class="Texto1Form descripcion" for="Descripcion">Descripción</label><br>
+            <button class="btn btn-secondary" type="button" id="agregarCampo">Agregar Descripción</button>
 
-        <button class="btn btn-secondary" type="submit" id="crearProductoBtn">Crear Producto</button>
+            <div id="campo-dinamico"></div>
+            <input type="hidden" id="campos-dinamicos-hidden" name="Descripcion" value="">
+
+            <button class="btn btn-primary btnnew" type="submit" id="crearProductoNuevoBtn"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941zM224 416c-35.346 0-64-28.654-64-64 0-35.346 28.654-64 64-64s64 28.654 64 64c0 35.346-28.654 64-64 64zm96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A11.996 11.996 0 0 1 320 111.48z" /></svg> Crear Producto</button>
+
+
     </form>
+
 </div>
 
 <script>
@@ -129,7 +145,7 @@
             lbltecnologiaRam.style.display = 'none';
         }
 
- 
+
         tipoSelect.addEventListener('change', function () {
             hideAllSpecificFields();
 

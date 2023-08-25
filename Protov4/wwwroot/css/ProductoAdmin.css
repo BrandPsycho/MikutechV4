@@ -7,6 +7,40 @@
     margin: 0 auto;
     padding: 20px;
 }
+
+#crearProductoBtn {
+    height: 50px;
+    width: 50px;
+    border:thick;
+    border-color:black;
+    margin-top: 2px;
+    transition: transform 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
+}
+
+    #crearProductoBtn:hover {
+        transform: scale(1.05) rotate(360deg);
+
+    }
+
+#textobotn {
+    margin-left: -15px;
+    opacity: 0; /* Ocultar 'textobotn' por defecto */
+    /* Puedes ajustar las propiedades según tus necesidades */
+    pointer-events: none;
+    background-color: #166fe5;
+    width: 0; /* Ancho inicial 0 para ocultar el texto */
+    overflow: hidden; /* Ocultar cualquier contenido que exceda el ancho */
+    white-space: nowrap; /* Evitar saltos de línea en el texto */
+    text-overflow: ellipsis; /* Mostrar puntos suspensivos si el texto es demasiado largo */
+    transition: width 0.3s ease-in-out;
+}
+
+
+#crearProductoBtn:hover + #textobotn {
+    opacity: 1; /* Mostrar 'textobotn' al pasar el cursor sobre el contenedor 'botonNuevo' */
+    width: 135px; /* Mover 'textobotn' desde la izquierda al mostrarlo */
+}
+
 #Busqueda {
     display: flex;
     justify-content: space-around;
@@ -32,7 +66,9 @@
     border: none;
     color: white;
 }
-
+#contenedor_Productos{
+    margin-top:-35px;
+}
 /* Estilos para el botón de eliminar */
 .deleteBtn {
     background-color: #dc3545; /* Rojo */
@@ -42,26 +78,38 @@
 
 /* Estilo para las tarjetas */
 .card {
-
-    background-color: #212529; /* Color de fondo más oscuro */
+    background: rgb(23,29,38);
+    background: linear-gradient(90deg, rgba(23,29,38,1) 0%, rgba(36,59,79,1) 66%);
     border-radius: 10px; /* Esquinas redondeadas */
+    box-shadow: 10px 10px 10px -8px rgba(0,0,0,0.69);
+    -webkit-box-shadow: 10px 10px 10px -8px rgba(0,0,0,0.69);
+    -moz-box-shadow: 10px 10px 10px -8px rgba(0,0,0,0.69);
     overflow: hidden; /* Evitar que los bordes redondeados se vean afectados por contenido interno */
     color: white; /* Texto en blanco */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
     transition: transform 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
 }
+
     .card:hover {
-        cursor: pointer;
+        
         transform: scale(1.05);
     }
+
 .card-img-top {
     max-height: 200px;
     object-fit: scale-down; /* Ajustar la imagen a la tarjeta */
+    
 }
 
 .card-body {
     padding: 20px;
+    width: 375px;
+    height: 240px;
+    background-color: #fafafa15;
+    -webkit-backdrop-filter: blur(0.4rem);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
+
 
 .card-title {
     font-size: 18px;

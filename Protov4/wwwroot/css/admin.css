@@ -103,6 +103,10 @@ body {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+@font-face {
+    font-family: 'Spoof';
+    src: url('Recursos/SpoofTrial-Bold.otf') format('opentype');
+}
 
 hr {
   margin: 1rem 0;

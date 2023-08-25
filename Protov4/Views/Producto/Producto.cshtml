@@ -2,6 +2,11 @@
 @{
     ViewData["Title"] = "Productos";
     string tipo = ViewData["tipo"] as string;
+    int currentPage = 1;
+    int itemsPerPage = 9; // Debes ajustar esto según tus preferencias
+
+    int totalProducts = Model.Count;
+    int totalPages = (int)Math.Ceiling((double)totalProducts / itemsPerPage);
 }
 @model List<ProductoDTO>
 <div class="container">
@@ -105,7 +110,16 @@
         </div>
     </main>
 </div>
-
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @(i == currentPage ? "active" : "")">
+                <a class="page-link" href="?page=@i">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
@@ -244,6 +258,51 @@
             }
             return null;
         }
+        var currentPage = 1;
+        var itemsPerPage = 9; // Puedes ajustar esto según tus preferencias
+
+        // Calcular el número total de productos y páginas
+        var totalProducts = productos.length;
+        var totalPages = Math.ceil(totalProducts / itemsPerPage);
+
+        function mostrarProductosEnPagina(pageNumber) {
+            currentPage = pageNumber;
+            var startIndex = (currentPage - 1) * itemsPerPage;
+            var endIndex = Math.min(startIndex + itemsPerPage, totalProducts); // Ajusta este cálculo
+
+            // Vaciar el contenedor
+            while (contenedorProductos.firstChild) {
+                contenedorProductos.removeChild(contenedorProductos.firstChild);
+            }
+
+            // Agregar los productos ordenados al contenedor
+            productos.slice(startIndex, endIndex).forEach(function (producto) {
+                contenedorProductos.appendChild(producto);
+            });
+
+            // Actualizar la clase 'active' en la paginación
+            var paginationItems = document.querySelectorAll(".pagination .page-item");
+            paginationItems.forEach(function (item, index) {
+                if (index + 1 === currentPage) {
+                    item.classList.add("active");
+                } else {
+                    item.classList.remove("active");
+                }
+            });
+        }
+
+        // Inicializar la página con la primera página de productos
+        mostrarProductosEnPagina(1);
+
+        // Escuchar los clics en los elementos de paginación
+        var paginationLinks = document.querySelectorAll(".pagination .page-link");
+        paginationLinks.forEach(function (link) {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                var pageNumber = parseInt(link.textContent);
+                mostrarProductosEnPagina(pageNumber);
+            });
+        });
     });
 
 </script>
