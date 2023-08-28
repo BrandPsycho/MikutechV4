@@ -38,12 +38,12 @@ namespace Protov4.Controllers
             try
             {
                 // Se valida el usuario en la base de datos y se obtiene su información
-                ((int id_usuario, int id_rol_user), int id_cliente) = _usuariosDAO.ValidarUsuario(user);
+                (int id_usuario, int id_rol_user, int id_cliente, string nombre_compuesto) = _usuariosDAO.ValidarUsuario(user);
                 if (id_usuario != 0)
                 {
                     var claims = new List<Claim> // Se crean las reclamaciones para el usuario autenticado
                     {
-                    new Claim(ClaimTypes.Name, user.correo_elec),
+                    new Claim(ClaimTypes.Name, nombre_compuesto),
                     new Claim("id_usuario", id_usuario.ToString()),
                     new Claim("id_cliente", id_cliente.ToString()),
                     new Claim("id_rol_user", id_rol_user.ToString())
@@ -135,8 +135,8 @@ namespace Protov4.Controllers
                 ModelState.AddModelError("confirmar_contrasena", "Las contraseñas no coinciden");
                 return View(nclient);
             }
-
-            bool registrado = _usuariosDAO.Registrar(nclient); // Intenta registrar al nuevo cliente
+            string mensaje;
+            bool registrado = _usuariosDAO.Registrar(nclient, out mensaje); // Intenta registrar al nuevo cliente
 
             if (registrado)
             {
@@ -144,7 +144,7 @@ namespace Protov4.Controllers
             }
             else
             {
-                ViewBag.Error = "Credenciales incorrectas"; // Muestra un mensaje de error si el registro falla
+                ViewBag.Error = mensaje; ; // Muestra un mensaje de error si el registro falla
             }
 
             return View();

@@ -113,7 +113,7 @@ namespace Protov4.Controllers
                 apellido_cliente = p.apellido_cliente,
                 correo_elec = p.correo_elec,
                 fecha_inicio_sesion = p.fecha_inicio_sesion,
-                fecha_cierre_session = p.fecha_cierre_session
+                fecha_cierre_sesion = p.fecha_cierre_sesion
             }).ToList();
 
             return AuditoriaDTO;

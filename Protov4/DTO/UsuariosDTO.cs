@@ -17,5 +17,7 @@ namespace Protov4.DTO
         public string? contrasena { get; set; } // Indica que representa al campo de la contraseña
 
         public int id_rol_user { get; set; } // Propiedad que representa el identificador del rol del usuario
+
+        public string? nombre_compuesto { get; set; }
     }
 }

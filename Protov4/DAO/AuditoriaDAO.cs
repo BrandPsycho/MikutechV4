@@ -35,7 +35,7 @@ namespace Protov4.DAO
                                 apellido_cliente = dr["apellido_cliente"].ToString(),
                                 correo_elec = dr["correo_elec"].ToString(),
                                 fecha_inicio_sesion = ((DateTime)dr["fecha_inicio_sesion"]),
-                                fecha_cierre_session = ((DateTime)dr["fecha_cierre_sesion"])
+                                fecha_cierre_sesion = ((DateTime)dr["fecha_cierre_sesion"])
 
                             });
                         }

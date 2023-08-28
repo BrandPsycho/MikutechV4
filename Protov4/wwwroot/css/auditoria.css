@@ -3,29 +3,56 @@
     src: url('../recursos/SpoofTrial-Bold.otf') format('opentype');
 }
 
-body {
-}
+    body {
+    }
 
-.title-auditoria {
-    padding: 10px;
-}
+    .container-custom {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .title-auditoria {
+        padding: 10px;
+    }
 
     .title-auditoria h1 {
         font-family: 'Spoof Trial';
-        margin-left: 30px;
-        margin-top: 25px;
+        color: #0C0A22;
+
     }
 
-.tabla-pedidos {
-    width: 110%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    text-align: center;
-}
+    .tabla-pedidos {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        text-align: center;
+        font-size: 14px;
+
+    }
 
     /* Estilos para la cabecera de la tabla (thead) */
     .tabla-pedidos thead th {
         font-family: Arial;
-        color: black;
+        padding: 5px 0;
+        color: #0C0A22;
+    }
+
+    .tabla-pedidos tbody th {
+        padding: 5px;
+        text-align: center;
+        color: white;
         padding: 10px 0;
     }
+
+
+    .dataTables_filter {
+        margin-bottom: 10px;
+        color: #0C0A22;
+    }
+
+    .dataTables_length {
+        margin-bottom: 10px
+    }
+
+
+
