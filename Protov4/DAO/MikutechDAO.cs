@@ -7,6 +7,7 @@ namespace Protov4.DAO
         CarritoDAO carritoDAO;
         AuditoriaDAO auditoriaDAO;
         DashboardDAO dashDAO;
+        PedidosDAO pedidosDAO;
         // Indica si se ha realizado un pedido
         public static bool pedido = false;
         public MikutechDAO(IConfiguration configuration)
@@ -15,6 +16,7 @@ namespace Protov4.DAO
             carritoDAO = new CarritoDAO(configuration);
             auditoriaDAO = new AuditoriaDAO(configuration);
             dashDAO = new DashboardDAO(configuration);
+            pedidosDAO = new PedidosDAO(configuration);
         }
         // Actualiza los detalles de un pedido
         public override void ActualizarPedido(int id_pedido,decimal pago_total, int tipoestado , string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
@@ -106,6 +108,16 @@ namespace Protov4.DAO
         public override List<DashboardDTO> MasVendidos()
         {
             return dashDAO.MasVendidos();
+        }
+        public override List<PedidosDTO> VerPedidos()
+        {
+            return pedidosDAO.ListarPedidos();
+        }
+
+        public override void CambiarEstado(int id_pedido, int id_tipo_estado)
+        {
+            pedidosDAO.CambiarEstado(id_pedido, id_tipo_estado);
+
         }
     }
 }
