@@ -1,0 +1,273 @@
+﻿@using Protov4.DTO
+@{
+    Layout = "~/Views/Administrador/_LayoutAdmin.cshtml";
+}
+@model (List<DashboardDTO> dash,List<ProductoDTO> prod)
+<div class="m-2">
+    <h1>Dashboard</h1>
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body"> <i class="fa-solid fa-tags fa-fade"></i> Se han realizado un total de @Model.dash.Count Ventas</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="#">Ver Detalles</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        @{
+            int cantidad = 0;
+            foreach (var item in Model.prod)
+            {
+                if (item.Existencia < 10 && item.Existencia != 0)
+                {
+                    cantidad++;
+                }
+            }
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-warning text-white mb-4" data-toggle="modal" data-target="#lowInventoryModal">
+                    <div class="card-body"><i class="fa-solid fa-circle-exclamation fa-fade"></i> Tienes @cantidad Productos con poca existencia</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#" data-toggle="modal" data-target="#lowInventoryModal">Ver Detalles</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+        @{
+            int cantidadprod = 0;
+            foreach (var item in Model.dash)
+            {
+                cantidadprod = item.cantidad + cantidadprod;
+            }
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-success text-white mb-4">
+                    <div class="card-body"><i class="fa-solid fa-clipboard-check fa-fade"></i> Se han vendido @cantidadprod Productos en total</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link"></a>
+                        <div class="small text-white"><i class="fa-solid fa-minus" style="color: #198754;"></i></div>
+                    </div>
+                </div>
+            </div>
+        }
+        @{
+            int cantidadnulos = 0;
+            foreach (var item in Model.prod)
+            {
+                if (item.Existencia == 0 )
+                {
+                    cantidadnulos++;
+                }
+            }
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-danger text-white mb-4 " data-toggle="modal" data-target="#zeroInventoryModal">
+                    <div class="card-body"><i class="fa-solid fa-triangle-exclamation fa-shake"></i> Tienes @cantidadnulos Productos con 0 existencias</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#" data-toggle="modal" data-target="#zeroInventoryModal">Ver Detalles</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fa-solid fa-chart-column"></i>
+                    TOP 10 Productos más Vendidos
+                </div>
+                <div class="card-body"><canvas id="myBarChart" width="100%" height="60px"></canvas></div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card mb-4 ">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>
+                    Top Categorias más vendidas
+                </div>
+                <div class="card-body"><canvas id="myPieChart" style="max-width: 100%; max-height: 360px;"></canvas></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="lowInventoryModal" tabindex="-1" role="dialog" aria-labelledby="lowInventoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lowInventoryModalLabel">Productos con poca existencia</h5>
+                <button type="button" class="close closeModalButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul id="lowInventoryList" class="list-group">
+                    <!-- Product items will be added here -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModalButton" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="zeroInventoryModal" tabindex="-1" role="dialog" aria-labelledby="zeroInventoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="zeroInventoryModalLabel">Productos sin existencia</h5>
+                <button type="button" class="close closeModalButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul id="zeroInventoryList" class="list-group">
+                    <!-- Product items without inventory will be added here -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModalZeroButton" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Asegurarse de que jQuery y Bootstrap estén incluidos antes de tu script -->
+<script src="ruta/a/jquery.min.js"></script>
+<script src="ruta/a/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#lowInventoryModal').on('show.bs.modal', function () {
+            var lowInventoryList = $('#lowInventoryList');
+            lowInventoryList.empty(); // Clear previous content
+
+            // Iterate through products with low inventory and add them to the modal
+    @foreach (var item in Model.prod)
+    {
+        if (item.Existencia < 10 && item.Existencia != 0)
+        {
+            <text>lowInventoryList.append('<li class="list-group-item">@item.Nombre_Producto Tiene @item.Existencia existencias</li>'); </text>
+        }
+    }
+                });
+        $('.card[data-toggle="modal"]').click(function () {
+            var targetModal = $(this).data('target');
+            $(targetModal).modal('show');
+        });
+        $('.closeModalButton').click(function () {
+            $('#lowInventoryModal').modal('hide');
+        });
+        $('#zeroInventoryModal').on('show.bs.modal', function () {
+            var zeroInventoryList = $('#zeroInventoryList');
+            zeroInventoryList.empty(); // Clear previous content
+
+            // Iterate through products with zero inventory and add them to the modal
+    @foreach (var item in Model.prod)
+    {
+        if (item.Existencia == 0)
+        {
+            <text>zeroInventoryList.append('<li class="list-group-item">@item.Nombre_Producto</li>'); </text>
+        }
+    }
+    });
+        $('.card[data-toggle="modal"]').click(function () {
+            var targetModal = $(this).data('target');
+            $(targetModal).modal('show');
+        });
+        $('.closeModalZeroButton').click(function () {
+            $('#zeroInventoryModal').modal('hide');
+        });
+        var ctx = document.getElementById('myBarChart').getContext('2d');
+
+        var originalLabels = @Html.Raw(Json.Serialize(Model.dash.Select(p => p.Nombre_Producto)));
+        var originalData = @Html.Raw(Json.Serialize(Model.dash.Select(p => p.cantidad)));
+
+        var limitedLabels = originalLabels.slice(0, 10);
+        var limitedData = originalData.slice(0, 10);
+
+        var data = {
+            labels: limitedLabels,
+            datasets: [{
+                label: 'Cantidad Vendida',
+                data: limitedData,
+                backgroundColor: 'rgba(2,117,216,1)',
+                borderColor: 'rgba(2,117,216,1)',
+            }]
+        };
+        var options = {
+            tooltips: {
+                callbacks: {
+                    title: function (tooltipItem, data) {
+                        return originalLabels[tooltipItem[0].index];
+                    },
+                    label: function (tooltipItem, data) {
+                        return 'Cantidad Vendida: ' + tooltipItem.formattedValue;
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 35,
+                        minRotation: 35,
+                        maxTicksLimit: 5,
+
+                        callback: function (value, index, values) {
+                            const maxLength = 15;
+                            return originalLabels[value].length > maxLength ? originalLabels[value].substring(0, maxLength) + '...' : originalLabels[value];
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+
+        var pieCtx = document.getElementById('myPieChart').getContext('2d');
+
+        var pieLabels = @Html.Raw(Json.Serialize(Model.dash.Select(p => p.tipo)));
+        var pieData = @Html.Raw(Json.Serialize(Model.dash.Select(p => p.cantidad)));
+
+        var pieColors = generateCustomColors(pieLabels.length);
+
+        var pieChartData = {
+            labels: pieLabels,
+            datasets: [{
+                data: pieData,
+                backgroundColor: pieColors
+            }]
+        };
+
+        var pieChartOptions = {
+            responsive: true
+        };
+
+        var myPieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: pieChartData,
+            options: pieChartOptions
+        });
+
+        function generateCustomColors(count) {
+            var predefinedColors = ['#5148f2', '#548de9', '#aa49ee', '#f39632', '#d3433d', '#b43a42', '#d53f69', '#5ac1b4', '#23587a', '#7a8b9f'];
+            var colors = [];
+
+            for (var i = 0; i < count; i++) {
+                var colorIndex = i % predefinedColors.length;
+                colors.push(predefinedColors[colorIndex]);
+            }
+
+            return colors;
+        }
+    });
+</script>
+

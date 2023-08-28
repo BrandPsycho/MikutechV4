@@ -77,7 +77,7 @@
 }
 
 /* Estilo para las tarjetas */
-.card {
+.cardProd {
     background: rgb(23,29,38);
     background: linear-gradient(90deg, rgba(23,29,38,1) 0%, rgba(36,59,79,1) 66%);
     border-radius: 10px; /* Esquinas redondeadas */
@@ -89,9 +89,9 @@
     transition: transform 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
 }
 
-    .card:hover {
-        
+    .cardProd:hover {
         transform: scale(1.05);
+        cursor:pointer;
     }
 
 .card-img-top {
@@ -100,7 +100,7 @@
     
 }
 
-.card-body {
+.cardProd-body {
     padding: 20px;
     width: 375px;
     height: 240px;

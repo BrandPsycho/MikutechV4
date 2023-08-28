@@ -22,6 +22,7 @@ namespace Protov4.DAO
         {
             var filtro = Builders<ProductoDTO>.Filter.Eq(busqueda, tipo);
 
+
             if (busqueda=="Nombre_Producto" && tipo!=null)
             {
                 var regexPattern = new BsonRegularExpression(new Regex(tipo, RegexOptions.IgnoreCase));
@@ -40,7 +41,7 @@ namespace Protov4.DAO
             }
             else
             {
-                var query = prod.Find(filtro).ToListAsync();
+                    var query = prod.Find(filtro).ToListAsync();
                 return query.Result;
             }
             }
@@ -126,6 +127,7 @@ namespace Protov4.DAO
             };
             prod.InsertOne(producto);
         }
+        //Método para Eliminar un producto de la base de Mongo segun el ID
         public void eliminarProducto(string id)
         {
             var objectId = new ObjectId(id);

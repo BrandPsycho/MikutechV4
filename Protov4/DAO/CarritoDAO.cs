@@ -179,6 +179,8 @@ namespace Protov4.DAO
                 return list;
             }
         }
+
+
         // Elimina un producto del carrito de compras
         public void EliminarProductoCarrito(int id, string idproducto)
         {

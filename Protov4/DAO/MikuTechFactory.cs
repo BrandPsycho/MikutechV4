@@ -24,6 +24,8 @@ namespace Protov4.DAO
         public abstract List<PedidoDetalleDTO> ObtenerCarrito();
         // Obtiene una lista de elementos del carrito con detalles completos según un ID de pedido
         public abstract List<CarritoFullDTO> ObtenerCarritoFull(int id);
+        //Obtiene los productos mas vendidos 
+        public abstract List<DashboardDTO> MasVendidos();
         // Elimina un producto del carrito de compras
         public abstract void EliminarProductoCarrito(int id, string idproducto);
         // Registra un nuevo pedido para un cliente

@@ -62,6 +62,15 @@ namespace Protov4.Controllers
             return View(audotira);
         }
         [HttpGet]
+        public ActionResult Dashboard()
+        {
+            var dash = db.MasVendidos();
+            var prod = db.GetAllProductos(null,"Tipo");
+            var combinedData = (MasVendidos: dash, Productos: prod);
+
+            return View(combinedData);
+        }
+        [HttpGet]
         public List<AuditoriaDTO> obtenerAuditoria()
         {
             List<AuditoriaDTO> auditoria;

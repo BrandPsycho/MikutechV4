@@ -20,18 +20,23 @@
     <link href="~/css/auditoria.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/NuevoProducto.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/ProductoAdmin.css" asp-append-version="true" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 </head>
 <body class="sb-nav-fixed">
     <nav class="miku sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+
         <img src="~/recursos/Miku_logo.png" alt="Logo de MIKUTECH" width="30px" height="30px">
         <a class="navbar-brand ps-3 " href="@Url.Action("Index", "Home")">MIKUTECH</a>
+
         <!-- Sidebar Toggle-->
         <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <div class="input-group">
-                
             </div>
         </form>
         <!-- Navbar-->
@@ -49,18 +54,21 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Addons</div>
                         
-                            <a class="nav-link" href="@Url.Action("Auditoria", "Administrador")">
+                        <a class="nav-link" href="@Url.Action("Dashboard", "Administrador")">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-gauge"></i></div>
+                            Dashboard
+                        </a>
+                        <a class="nav-link" href="@Url.Action("Auditoria", "Administrador")">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Auditoria
                         </a>
-                        
+
                         <a class="nav-link" href="@Url.Action("Administrador", "Administrador")">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Productos
                         </a>
-
+                        
                     </div>
                 </div>
             </nav>
@@ -81,3 +89,23 @@
     <script src="js/datatables-simple-demo.js"></script>
 </body>
 </html>
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+
+        // Toggle the side navigation
+        const sidebarToggle = document.body.querySelector('#sidebarToggle');
+        if (sidebarToggle) {
+            // Uncomment Below to persist sidebar toggle between refreshes
+            // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+            //     document.body.classList.toggle('sb-sidenav-toggled');
+            // }
+            sidebarToggle.addEventListener('click', event => {
+                event.preventDefault();
+                document.body.classList.toggle('sb-sidenav-toggled');
+                localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+            });
+        }
+
+    });
+
+</script>

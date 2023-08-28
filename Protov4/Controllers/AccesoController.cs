@@ -64,7 +64,7 @@ namespace Protov4.Controllers
 
                     if (id_rol_user == 1)
                     {
-                        return RedirectToAction("Administrador", "Administrador"); // Redirige al panel de administración si es un administrador
+                        return RedirectToAction("Dashboard", "Administrador"); // Redirige al panel de administración si es un administrador
                     }
                     else
                     {

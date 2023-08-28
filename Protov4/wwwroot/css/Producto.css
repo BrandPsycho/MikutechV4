@@ -83,7 +83,7 @@
     /*    background-color: #444774;
 */ transition: transform 0.3s ease-in-out; /* Transición suave al pasar el cursor sobre el botón */
 }
-#cardform:hover {
+#cardProdform:hover {
         border-color: aqua;
         cursor: pointer;
         transform: scale(1.05);

@@ -6,6 +6,7 @@ namespace Protov4.DAO
     {   ProductoDAO productoDAO;
         CarritoDAO carritoDAO;
         AuditoriaDAO auditoriaDAO;
+        DashboardDAO dashDAO;
         // Indica si se ha realizado un pedido
         public static bool pedido = false;
         public MikutechDAO(IConfiguration configuration)
@@ -13,6 +14,7 @@ namespace Protov4.DAO
             productoDAO = new ProductoDAO(configuration);
             carritoDAO = new CarritoDAO(configuration);
             auditoriaDAO = new AuditoriaDAO(configuration);
+            dashDAO = new DashboardDAO(configuration);
         }
         // Actualiza los detalles de un pedido
         public override void ActualizarPedido(int id_pedido,decimal pago_total, int tipoestado , string Ciudad_envio, string Calle_principal, string Calle_secundaria, int id_tipo_pago, DateTime fecha_pedido)
@@ -75,30 +77,35 @@ namespace Protov4.DAO
         {
             return carritoDAO.ObtenerPedidoPorId(idPedido);
         }
-
+        //Método que actualiza las existencias de un producto
         public override void ActualizarExistencias(string id, int cantidad)
         {
             productoDAO.ActualizarExistencias(id,cantidad);
         }
-
+        //Métodoq ue regresa una lista con la auditoria
         public override List<AuditoriaDTO> ObtenerAuditoria()
         {
             return auditoriaDAO.ListarAuditoria();
         }
-
+        //Método para insertar nuevos productos
         public override void InsertarProducto(string nombre,string imagen, float precio, string Marca, int existencia, string tipo, string fabricante, string modelo, string velocidad, string Zócalo, string TamañoVRAM, string Interfaz, string TecnologiaRAM, string tamañomemoria, string Almacenamiento, List<string> Descripcion)
         {
             productoDAO.InsertarProducto(nombre,imagen,precio,Marca,existencia,tipo,fabricante,modelo,velocidad,Zócalo,TamañoVRAM,Interfaz,TecnologiaRAM,tamañomemoria,Almacenamiento,Descripcion);
         }
-
+        //Llama al metodo para eliminar los productos
         public override void eliminarProducto(string id)
         {
             productoDAO.eliminarProducto(id);
         }
-
+        //Metodo para llamar a la actulizacion de los productos
         public override void ActualizarProducto(string _id, string nombre, double precio, string tipo, string imagenBase64, string Marca, int existencia, string Fabricante, string Modelo, string Velocidad, string Zocalo, string TamañoVram, string Interfaz, string Tamañomemoria, string TecnologiaRam, string Almacenamiento, List<string> Descripcion)
         {
             productoDAO.ActualizarProducto(_id,nombre,precio,tipo,imagenBase64,Marca,existencia,Fabricante,Modelo,Velocidad,Zocalo,TamañoVram,Interfaz,Tamañomemoria,TecnologiaRam,Almacenamiento,Descripcion);
+        }
+        //Regresa la lista de los productos mas vendidos
+        public override List<DashboardDTO> MasVendidos()
+        {
+            return dashDAO.MasVendidos();
         }
     }
 }
