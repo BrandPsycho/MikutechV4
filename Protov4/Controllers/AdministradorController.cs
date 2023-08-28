@@ -18,8 +18,18 @@ namespace Protov4.Controllers
         }
         public IActionResult Administrador(string tipo, string busqueda)
         {
+            try
+            {
+
             var productos = ListarProductos(tipo,busqueda);
             return View("Productos", productos);
+
+            }
+            catch (Exception)
+            {
+
+                return View("Error");
+            }
         }
         [HttpGet]
         public List<ProductoDTO> ListarProductos(string tipo,string busqueda)
@@ -58,17 +68,37 @@ namespace Protov4.Controllers
         }
         public ActionResult Auditoria()
         {
+            try
+            {
+
             var audotira = obtenerAuditoria();
             return View(audotira);
+
+            }
+            catch (Exception)
+            {
+
+                return View("Error");
+            }
         }
         [HttpGet]
         public ActionResult Dashboard()
         {
+            try
+            {
+
+            
             var dash = db.MasVendidos();
             var prod = db.GetAllProductos(null,"Tipo");
             var combinedData = (MasVendidos: dash, Productos: prod);
 
             return View(combinedData);
+            }
+            catch (Exception)
+            {
+
+                return View("Error");
+            }
         }
         [HttpGet]
         public List<AuditoriaDTO> obtenerAuditoria()
@@ -96,6 +126,10 @@ namespace Protov4.Controllers
         [HttpPost]
         public ActionResult NuevoProducto(string nombre, string imagenBase64, float precio, string Marca, int existencia, string tipo, string fabricante, string modelo, string velocidad, string Zócalo, string TamañoVRAM, string Interfaz, string TecnologiaRAM, string tamañomemoria, string Almacenamiento, List<string> Descripcion)
         {
+            try
+            {
+
+          
             List<string> descripcionList = new List<string>();
 
             if (Descripcion[0]!=null)
@@ -109,19 +143,39 @@ namespace Protov4.Controllers
             db.InsertarProducto(nombre, imagenBase64, precio, Marca, existencia, tipo, fabricante, modelo, velocidad, Zócalo, TamañoVRAM, Interfaz, TecnologiaRAM, tamañomemoria, Almacenamiento, descripcionList);
             var productos = ListarProductos(null,null);
             return View("Productos", productos);
+            }
+            catch (Exception)
+            {
+                return View("Error");
+
+            }
         }
         [HttpPost]
         public ActionResult eliminarProducto(string id)
         {
+            try { 
             db.eliminarProducto(id);
             var productos = ListarProductos(null,null);
             return View("Productos", productos);
+            }
+            catch (Exception)
+            {
+                return View("Error");
+
+            }
         }
       
         public ActionResult EditarProducto(string _id)
         {
+            try { 
             var productos = ObjetoSeleccion(_id);
             return View(productos);
+            }
+            catch (Exception)
+            {
+                return View("Error");
+
+            }
         }
         public ActionResult EditarProductoDAO(string _id, string nombre, double precio, string tipo, string imagenBase64, string Marca, int existencia, string Fabricante, string Modelo, string Velocidad, string Zocalo, string TamañoVram, string Interfaz, string NuevasDescripcionesJson, string Tamañomemoria, string TecnologiaRam, string Almacenamiento, List<string> Descripcion)
         {

@@ -26,6 +26,10 @@ namespace Protov4.Controllers
         // Muestra una lista de productos filtrados por tipo
         public ActionResult Producto(string tipo,string busqueda)
         {
+            try
+            {
+
+            
             var productos = ListarProductos(tipo,busqueda);
             if (busqueda== "Nombre_Producto" || busqueda=="Marca")
             {
@@ -35,14 +39,31 @@ namespace Protov4.Controllers
             ViewData["tipo"] = tipo;
             }
             return View(productos);
+
+            }
+            catch (Exception)
+            {
+
+                return View("Error");
+            }
         }
      
         // GET: ProductoController/ProductoSeleccion
         // Muestra los detalles de un producto específico seleccionado por ID
         public ActionResult ProductoSeleccion(string _id)
         {
+            try
+            {
+
+            
             var productos = ObjetoSeleccion(_id);
             return View(productos);
+            }
+            catch (Exception)
+            {
+
+                return View("Error");
+            }
         }
         // Método auxiliar HTTP GET: Obtiene los detalles de un producto seleccionado por ID
         [HttpGet]
@@ -151,7 +172,7 @@ namespace Protov4.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, errorMessage = ex.Message });
+                return View("Error");
             }
         }
 
