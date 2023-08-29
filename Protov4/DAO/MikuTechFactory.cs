@@ -42,5 +42,7 @@ namespace Protov4.DAO
         public abstract void ActualizarExistencias(string id,int cantidad);
         //Metodo para eliminar un producto de mongo 
         public abstract void eliminarProducto(string id);
+        public abstract List<PedidosDTO> VerPedidos();
+        public abstract void CambiarEstado(int id_pedido, int id_tipo_estado);
     }
 }

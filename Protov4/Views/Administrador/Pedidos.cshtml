@@ -2,13 +2,14 @@
 @{
     Layout = "~/Views/Administrador/_LayoutAdmin.cshtml";
 }
-@model List<AuditoriaDTO>
+@model List<PedidosDTO>
 @section styles {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
     <link href="~/css/auditoria.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 }
 <div class="title-auditoria">
-    <h1>Auditoria<i class="fa fa-file-text" style="margin-left: 15px; margin-top: 10px; margin-bottom: 3px; font-size: 28px;"></i></h1>
+    <h1>Pedidos<i class="fa fa-file-text" style="margin-left: 15px; margin-bottom: 3px; font-size: 28px;"></i></h1>
 </div>
 <div class="filter-section">
 </div>
@@ -16,13 +17,12 @@
     <table id="auditoriaTable" class="tabla-pedidos">
         <thead>
             <tr>
-                <th>Id_Auditoria</th>
-                <th>Id_Usuario</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo electrónico</th>
-                <th>Fecha_Inicio_Sesión</th>
-                <th>Fecha_Cierre_Sesión</th>
+                <th>Id_Pedido</th>
+                <th>Ciudad</th>
+                <th>Calle Principal</th>
+                <th>Calle Secundaria</th>
+                <th>Estado</th>
+                <th>Cambiar Estado</th>
             </tr>
         </thead>
 
@@ -31,13 +31,25 @@
             var carr = Model[i];
 
             <tr>
-                <td> @carr.id_auditoria</td>
-                <td> @carr.id_usuario</td>
-                <td> @carr.nombre_cliente</td>
-                <td> @carr.apellido_cliente</td>
-                <td> @carr.correo_elec</td>
-                <td> @carr.fecha_inicio_sesion</td>
-                <td>@carr.fecha_cierre_sesion </td>
+                <td> @carr.id_pedido</td>
+                <td> @carr.ciudad_envio</td>
+                <td> @carr.Calle_principal</td>
+                <td> @carr.Calle_secundaria</td>
+                <td> @carr.nombre_estado</td>
+                <td>
+                    <form class="changestateForm" action="@Url.Action("CambiarEstado", "Administrador")" method="post">
+                        <button type="submit" class="btnPagar btn btn-outline-secondary">Enviado</button>
+                        <input type="hidden" name="id_pedido" value="@carr.id_pedido" />
+                        <input type="hidden" name="id_tipo_estado" value=2 />
+
+                    </form>
+                    <form class="changestateForm" action="@Url.Action("CambiarEstado", "Administrador")" method="post">
+                        <button type="submit" class="btnPagar btn btn-outline-secondary">Recibido</button>
+                        <input type="hidden" name="id_pedido" value="@carr.id_pedido" />
+                        <input type="hidden" name="id_tipo_estado" value=3 />
+
+                    </form>
+                </td>
             </tr>
         }
     </table>
@@ -78,7 +90,7 @@
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
                 }
-                });
+            });
 
             $('#search-button').click(function () {
                 dataTable.search($('#search').val()).draw();

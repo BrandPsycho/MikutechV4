@@ -228,5 +228,38 @@ namespace Protov4.Controllers
 
             return ProductoDTO;
         }
+
+        public ActionResult Pedidos()
+        {
+            var pedidos = verPedidos();
+            return View(pedidos);
+        }
+        [HttpGet]
+        public List<PedidosDTO> verPedidos()
+        {
+            List<PedidosDTO> pedidos;
+            pedidos = db.VerPedidos();
+            var PedidosDTO = pedidos.Select(p => new PedidosDTO
+            {
+                id_pedido = p.id_pedido,
+                ciudad_envio = p.ciudad_envio,
+                Calle_principal = p.Calle_principal,
+                Calle_secundaria = p.Calle_secundaria,
+                nombre_estado = p.nombre_estado
+            }).ToList();
+
+            return PedidosDTO;
+        }
+
+        [HttpPost]
+        public ActionResult CambiarEstado(int id_pedido, int id_tipo_estado)
+        {
+
+            db.CambiarEstado(id_pedido, id_tipo_estado);
+            var pd = verPedidos();
+
+            return View("Pedidos", pd);
+
+        }
     }
 }
