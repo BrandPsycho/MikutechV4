@@ -9,7 +9,7 @@ using Protov4.DAO;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Agregar servicios al contenedor.
+// Agregar servicios al contenedor..
 builder.Services.AddControllersWithViews();
 // Configuración para acceder a la cadena de conexión desde appsettings.json
 IConfiguration configuration = builder.Configuration;
